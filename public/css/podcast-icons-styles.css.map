@@ -1,1 +1,0 @@
-{"version":3,"file":"css/podcast-icons-styles.css","mappings":";;;AAAA;CACC,cAAc;AACf,C","sources":["webpack://gt-podcast-block-bindings/./resources/css/podcast-icons-styles.css"],"sourcesContent":[":where(.wp-block-social-links.is-style-logos-only) .wp-social-link-applepod {\n\tcolor: #1225b5;\n}"],"names":[],"sourceRoot":""}

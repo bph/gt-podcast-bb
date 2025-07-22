@@ -68,7 +68,7 @@ function gtimes_custom_icons_editor_assets(){
 	);
 }
 
-add_action( 'init', 'gtimes_enqueue_block_assets' );
+/* add_action( 'init', 'gtimes_enqueue_block_assets' );
 
 function gtimes_enqueue_block_assets() {
 	$dir = untrailingslashit( plugin_dir_path( __FILE__ ) );
@@ -87,6 +87,7 @@ function gtimes_enqueue_block_assets() {
 	}
 }
 
+*/
 
 add_filter( 'block_core_social_link_get_services', 'applepod_core_social_link' );
 

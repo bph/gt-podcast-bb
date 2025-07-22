@@ -10,8 +10,8 @@ module.exports = {
 	...{
 		entry: {
 			'js/editor': path.resolve( process.cwd(), 'resources/js', 'editor.js' ),
-            'js/podcast-icons': path.resolve( process.cwd(), 'resources/js', 'podcast-icons.js' ),
-            'css/podcast-icons-styles': path.resolve( process.cwd(), 'resources/css', 'podcast-icons-styles.css' ),
+            'js/podcast-icons': path.resolve( process.cwd(), 'resources/js', 'podcast-icons.js' )
+            
 		}
 	}
 };
