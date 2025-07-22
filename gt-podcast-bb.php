@@ -68,6 +68,26 @@ function gtimes_custom_icons_editor_assets(){
 	);
 }
 
+add_action( 'init', 'gtimes_enqueue_block_assets' );
+
+function gtimes_enqueue_block_assets() {
+	$dir = untrailingslashit( plugin_dir_path( __FILE__ ) );
+	$url = untrailingslashit( plugin_dir_url(  __FILE__ ) );
+
+	if ( file_exists( "{$dir}/public/css/podcast-icons-styles.asset.php" )) {
+		$asset = include "{$dir}/public/css/podcast-icons-styles.asset.php";
+
+		wp_enqueue_block_style('core/social-links', [
+			'handle' => 'gtimes-block-social-links',
+			'src'    => "{$url}/public/css/podcast-icon-styles.css",
+			'path'   => "{$dir}/public/css/podcast-icon-styles.css",
+			'deps'   => $asset['dependencies'],
+			'ver'    => $asset['version']
+		]);
+	}
+}
+
+
 add_filter( 'block_core_social_link_get_services', 'applepod_core_social_link' );
 
 function applepod_core_social_link( $services_data ) {
