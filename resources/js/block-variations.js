@@ -48,8 +48,10 @@ registerBlockVariation('core/button', {
     title: 'Episode Download Button',
     description: 'Button that links to the episode audio file',
     icon: 'download',
+    category: 'media',
     attributes: {
         text: 'Download Episode',
+        url: '#',
         metadata: {
             bindings: {
                 url: {
