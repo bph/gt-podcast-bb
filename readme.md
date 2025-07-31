@@ -13,7 +13,8 @@ Use block markup in the Code Editor:
 ### Archive Header
 
 ### Podcast description
-``` <!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"gtimes/episode-data","args":{"key":"podcast_description"}}}}} -->
+``` 
+<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"gtimes/episode-data","args":{"key":"podcast_description"}}}}} -->
   <p></p>
   <!-- /wp:paragraph -->
 ```
@@ -27,7 +28,8 @@ Use block markup in the Code Editor:
 ## Episode Query Loop
 
 ### Cover image
-```  <!-- wp:image {"align":"left","width":"400px","height":"400px","metadata":{"bindings":{"url":{"source":"gtimes/episode-data","args":
+```  
+<!-- wp:image {"align":"left","width":"400px","height":"400px","metadata":{"bindings":{"url":{"source":"gtimes/episode-data","args":
   {"key":"cover_image"}}}}} -->
   <figure class="wp-block-image alignleft" style="width:400px;height:400px"><img src="#" alt="" 
   style="width:400px;height:400px"/></figure>
@@ -35,9 +37,10 @@ Use block markup in the Code Editor:
   ```
 
 ### Download button
-```  <!-- wp:button {"metadata":{"bindings":{"url":{"source":"gtimes/episode-data","args":{"key":"download_link"}}}}} -->
+```  
+<!-- wp:button {"metadata":{"bindings":{"url":{"source":"gtimes/episode-data","args":{"key":"download_link"}}}}} -->
   <div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="#">Download Episode</a></div>
-    <!-- /wp:button -->
+<!-- /wp:button -->
   ```
 ### Recording date
 ```
