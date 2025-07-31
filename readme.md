@@ -48,5 +48,12 @@ Use block markup in the Code Editor:
   <!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"gtimes/episode-data","args":{"key":"recording_date"}}}}} -->
   ```
 
-  Next step: 
-  Create Block variations for each of the Block Bindings so they can appear in the block inserter for content creators. 
+  ## Block variations
+  To make it easier for no-code content creator to use those block bindinds, I added Block variations to the plugin. 
+  - Episode Recording Date 
+  - Podcast Description
+  - Episode Cover Image
+  - Podcast Logo 
+  - Episode Download Button 
+
+  Note: They all appear with their names in the Block editor inserter, except for the Download button, it only appears once there is a "Buttons" block on canvas and it is added to the parent block. 
