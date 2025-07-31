@@ -6,7 +6,7 @@ import { registerBlockVariation } from '@wordpress/blocks';
 // Paragraph variations for podcast data
 registerBlockVariation('core/paragraph', {
     name: 'podcast-recording-date',
-    title: 'Podcast Recording Date',
+    title: 'Episode Recording Date',
     description: 'Display the podcast episode recording date',
     icon: 'calendar-alt',
     category: 'media',
@@ -35,27 +35,6 @@ registerBlockVariation('core/paragraph', {
                 content: {
                     source: 'gtimes/episode-data',
                     args: { key: 'podcast_description' }
-                }
-            }
-        }
-    },
-    scope: ['inserter']
-});
-
-// Button variation for download link
-registerBlockVariation('core/button', {
-    name: 'podcast-download-button',  
-    title: 'Podcast Download Button',
-    description: 'Button that links to the episode audio file',
-    icon: 'download',
-    category: 'media',
-    attributes: {
-        text: 'Download Episode',
-        metadata: {
-            bindings: {
-                url: {
-                    source: 'gtimes/episode-data',
-                    args: { key: 'download_link' }
                 }
             }
         }
