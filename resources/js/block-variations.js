@@ -51,7 +51,7 @@ registerBlockVariation('core/button', {
     category: 'media',
     attributes: {
         text: 'Download Episode',
-        url: '#',
+
         metadata: {
             bindings: {
                 url: {
