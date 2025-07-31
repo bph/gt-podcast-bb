@@ -34,6 +34,7 @@ Use block markup in the Code Editor:
   <figure class="wp-block-image alignleft" style="width:400px;height:400px"><img src="#" alt="" 
   style="width:400px;height:400px"/></figure>
   <!-- /wp:image -->
+ 
   ```
 
 ### Download button
