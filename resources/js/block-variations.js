@@ -42,6 +42,26 @@ registerBlockVariation('core/paragraph', {
     scope: ['inserter']
 });
 
+// Button variation for download link
+registerBlockVariation('core/button', {
+    name: 'episode-download-button',  
+    title: 'Episode Download Button',
+    description: 'Button that links to the episode audio file',
+    icon: 'download',
+    attributes: {
+        text: 'Download Episode',
+        metadata: {
+            bindings: {
+                url: {
+                    source: 'gtimes/episode-data',
+                    args: { key: 'download_link' }
+                }
+            }
+        }
+    },
+    scope: ['inserter']
+});
+
 // Image variations for podcast images
 registerBlockVariation('core/image', {
     name: 'podcast-episode-cover',

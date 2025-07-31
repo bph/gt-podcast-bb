@@ -12,7 +12,6 @@
  */
 
 add_action( 'init', 'gt_register_binding_sources' );
-add_action( 'init', 'gt_register_block_patterns' );
 
 function gt_register_binding_sources() {
 	// Check if function exists (WordPress 6.5+)
@@ -145,15 +144,3 @@ function podcast_core_social_link( $services_data ) {
 	return $services_data;
 }
 
-function gt_register_block_patterns() {
-	register_block_pattern(
-		'gtimes/episode-download-button',
-		array(
-			'title'       => __( 'Episode Download Button', 'gtimes' ),
-			'description' => __( 'Button that links to the episode audio file', 'gtimes' ),
-			'content'     => '<!-- wp:button {"metadata":{"bindings":{"url":{"source":"gtimes/episode-data","args":{"key":"download_link"}}}}} --><div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="#">Download Episode</a></div><!-- /wp:button -->',
-			'categories'  => array( 'Podcast' ),
-			'keywords'    => array( 'podcast', 'episode', 'download', 'audio' ),
-		)
-	);
-}
