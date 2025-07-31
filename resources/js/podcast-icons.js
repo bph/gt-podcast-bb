@@ -9,12 +9,76 @@ const ApplePodIcon = (
     </SVG>
 );
 
+const PocketCastsIcon = (
+    <SVG role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <Path d="M12,0A12,12,0,1,0,24,12,12,12,0,0,0,12,0ZM10.51,16.89a1.5,1.5,0,1,1,3,0,1.5,1.5,0,0,1-3,0Zm2.8-3.52A3.75,3.75,0,0,0,8.7,16.89H6.54a6,6,0,0,1,10.92,0H15.3A3.75,3.75,0,0,0,13.31,13.37Zm2.38-2.69A7.25,7.25,0,0,0,4.31,16.89H2.18a9.5,9.5,0,0,1,19.64,0H19.69A7.25,7.25,0,0,0,15.69,10.68Z"/>
+    </SVG>
+);
+
+const CastBoxIcon = (
+    <SVG role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <Path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.568 16.568L12 21.136l-5.568-4.568A7.378 7.378 0 0 1 4.8 12c0-1.657.547-3.19 1.472-4.432L12 2.864l5.728 4.704A7.378 7.378 0 0 1 19.2 12c0 1.657-.547 3.19-1.632 4.568zM12 6a6 6 0 1 0 6 6 6.007 6.007 0 0 0-6-6zm0 9a3 3 0 1 1 3-3 3.003 3.003 0 0 1-3 3z"/>
+    </SVG>
+);
+
+const PodbeanIcon = (
+    <SVG role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <Path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm6 12c0 .34-.04.67-.1 1h-2.4c-.3-1.15-.8-2.3-1.5-3.35L15.5 8.2c1.2 1.15 1.95 2.75 1.95 4.55-.17 0-.33-.05-.45-.15zM12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm0-9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm0 4.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+    </SVG>
+);
+
+const PodchaserIcon = (
+    <SVG role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <Path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.5 17.5h-11v-11h11v11zm-9-2h7v-7h-7v7zm2-5h3v3h-3v-3z"/>
+    </SVG>
+);
+
 registerBlockVariation('core/social-link', {
     name: 'applepod',
-    title: 'ApplePodcast',
+    title: 'Apple Podcasts',
     icon: ApplePodIcon,
     attributes: {
         service: 'applepod',
+    },
+    isActive: [ 'service' ]
+});
+
+registerBlockVariation('core/social-link', {
+    name: 'pocketcasts',
+    title: 'Pocket Casts',
+    icon: PocketCastsIcon,
+    attributes: {
+        service: 'pocketcasts',
+    },
+    isActive: [ 'service' ]
+});
+
+registerBlockVariation('core/social-link', {
+    name: 'castbox',
+    title: 'CastBox',
+    icon: CastBoxIcon,
+    attributes: {
+        service: 'castbox',
+    },
+    isActive: [ 'service' ]
+});
+
+registerBlockVariation('core/social-link', {
+    name: 'podbean',
+    title: 'Podbean',
+    icon: PodbeanIcon,
+    attributes: {
+        service: 'podbean',
+    },
+    isActive: [ 'service' ]
+});
+
+registerBlockVariation('core/social-link', {
+    name: 'podchaser',
+    title: 'Podchaser',
+    icon: PodchaserIcon,
+    attributes: {
+        service: 'podchaser',
     },
     isActive: [ 'service' ]
 });
