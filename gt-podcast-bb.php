@@ -14,6 +14,14 @@
 add_action( 'init', 'gt_register_binding_sources' );
 
 function gt_register_binding_sources() {
+	// Check if function exists (WordPress 6.5+)
+	if ( ! function_exists( 'register_block_bindings_source' ) ) {
+		add_action( 'admin_notices', function() {
+			echo '<div class="notice notice-error"><p>Block Bindings API requires WordPress 6.5 or higher.</p></div>';
+		});
+		return;
+	}
+
 	register_block_bindings_source( 'gtimes/episode-data', [
 		'label'              => __( 'Episode Data', 'gtimes' ),
 		'get_value_callback' => 'gt_episode_data_callback',
@@ -21,27 +29,52 @@ function gt_register_binding_sources() {
 	]);
 }
 
-/* function gt_episode_data_callback( $args, $block, $name ) {
-	if ( ! isset( $args['key'] ) ) {
+function gt_episode_data_callback( $source_args, $block_instance, $attribute_name ) {
+	if ( empty( $source_args['key'] ) ) {
 		return null;
 	}
-    //TODO needs to check for the plugin to be installed
 
-	$post_id = $block->context['postId'] ?? get_the_ID();
-
-	if ( 'title' === $args['key'] ) {
-		return get_post_field( 'post_title', $post_id );
-	} elseif ( 'excerpt' === $args['key'] ) {
-		return get_post_field( 'post_excerpt', $post_id );
-	} elseif ( 'permalink' === $args['key'] ) {
-		return get_permalink( $post_id );
+	$post_id = $block_instance->context['postId'] ?? get_the_ID();
+	
+	if ( ! $post_id ) {
+		return null;
 	}
 
+	$key = $source_args['key'];
+	
+	switch( $key ) {
+		case 'recording_date':
+			$recording_date = get_post_meta( $post_id, 'date_recorded', true );
+			if ( $recording_date ) {
+				return date_i18n( get_option( 'date_format' ), strtotime( $recording_date ) );
+			}
+			break;
+			
+		case 'download_link':
+			return get_post_meta( $post_id, 'audio_file', true );
+			
+		case 'cover_image':
+			$cover_image_id = get_post_meta( $post_id, 'cover_image_id', true );
+			if ( $cover_image_id ) {
+				return wp_get_attachment_url( $cover_image_id );
+			}
+			break;
+			
+		case 'podcast_description':
+			return get_option( 'ss_podcasting_data_description_20' );
+			
+		case 'podcast_image':
+			return get_option( 'ss_podcasting_data_image_20' );
+	}
+	
 	return null;
 }
-*/
-// A method responsible for adding the data for rendering the block on frontend.
-// see podcast-icons.js
+
+
+
+/* A method responsible for adding the data for rendering the block on frontend.
+* see podcast-icons.js
+*/ 
 
 add_action( 'enqueue_block_editor_assets','gtimes_custom_icons_editor_assets');
 
@@ -68,26 +101,6 @@ function gtimes_custom_icons_editor_assets(){
 	);
 }
 
-/* add_action( 'init', 'gtimes_enqueue_block_assets' );
-
-function gtimes_enqueue_block_assets() {
-	$dir = untrailingslashit( plugin_dir_path( __FILE__ ) );
-	$url = untrailingslashit( plugin_dir_url(  __FILE__ ) );
-
-	if ( file_exists( "{$dir}/public/css/podcast-icons-styles.asset.php" )) {
-		$asset = include "{$dir}/public/css/podcast-icons-styles.asset.php";
-
-		wp_enqueue_block_style('core/social-links', [
-			'handle' => 'gtimes-block-social-links',
-			'src'    => "{$url}/public/css/podcast-icon-styles.css",
-			'path'   => "{$dir}/public/css/podcast-icon-styles.css",
-			'deps'   => $asset['dependencies'],
-			'ver'    => $asset['version']
-		]);
-	}
-}
-
-*/
 
 add_filter( 'block_core_social_link_get_services', 'applepod_core_social_link' );
 
