@@ -97,8 +97,19 @@ function gtimes_custom_icons_editor_assets(){
 		$asset['dependencies'],
 		$asset['version'],
 		true
-
 	);
+	
+	// Enqueue block variations
+	if ( file_exists( "{$dir}/public/js/block-variations.asset.php" )) {
+		$variations_asset = include "{$dir}/public/js/block-variations.asset.php";
+		wp_enqueue_script(
+			'podcast-block-variations',
+			"{$url}/public/js/block-variations.js",
+			$variations_asset['dependencies'],
+			$variations_asset['version'],
+			true
+		);
+	}
 }
 
 
