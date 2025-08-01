@@ -45,6 +45,9 @@ function gt_podcast_init() {
     
     // Enqueue editor assets
     add_action( 'enqueue_block_editor_assets', 'gt_enqueue_editor_assets' );
+    
+    // Register block templates
+    gt_register_block_templates();
 }
 add_action( 'init', 'gt_podcast_init' );
 
@@ -321,6 +324,57 @@ function gt_register_social_services( $services_data ) {
 }
 
 /**
+ * Register block templates for podcast functionality
+ *
+ * @return void
+ */
+function gt_register_block_templates() {
+    // Check if function exists (WordPress 6.7+)
+    if ( ! function_exists( 'register_block_template' ) ) {
+        return;
+    }
+
+    // Get template content
+    $template_content = gt_get_template_content();
+    
+    if ( empty( $template_content ) ) {
+        return;
+    }
+
+    // Register podcast archive template
+    register_block_template(
+        'gt-podcast-bb//podcast-archive',
+        array(
+            'title'       => __( 'Podcast Archive', 'gtimes' ),
+            'description' => __( 'Template for displaying podcast episodes with metadata and download links.', 'gtimes' ),
+            'content'     => $template_content,
+            'post_types'  => array( 'podcast' ),
+        )
+    );
+}
+
+/**
+ * Get template content for podcast archive
+ *
+ * @return string Template content or empty string
+ */
+function gt_get_template_content() {
+    $template_file = GT_PODCAST_PLUGIN_DIR . 'template-code.html';
+    
+    if ( ! file_exists( $template_file ) ) {
+        return '';
+    }
+    
+    $content = file_get_contents( $template_file );
+    
+    if ( false === $content ) {
+        return '';
+    }
+    
+    return wp_kses_post( $content );
+}
+
+/**
  * Plugin activation hook
  *
  * @return void
@@ -349,6 +403,21 @@ function gt_podcast_activate() {
 register_activation_hook( __FILE__, 'gt_podcast_activate' );
 
 /**
+ * Unregister block templates
+ *
+ * @return void
+ */
+function gt_unregister_block_templates() {
+    // Check if function exists (WordPress 6.7+)
+    if ( ! function_exists( 'unregister_block_template' ) ) {
+        return;
+    }
+    
+    // Unregister podcast archive template
+    unregister_block_template( 'gt-podcast-bb//podcast-archive' );
+}
+
+/**
  * Plugin deactivation hook
  *
  * @return void
@@ -356,5 +425,8 @@ register_activation_hook( __FILE__, 'gt_podcast_activate' );
 function gt_podcast_deactivate() {
     // Clean up any temporary data if needed
     delete_transient( 'gt_podcast_admin_notice' );
+    
+    // Unregister block templates
+    gt_unregister_block_templates();
 }
 register_deactivation_hook( __FILE__, 'gt_podcast_deactivate' );

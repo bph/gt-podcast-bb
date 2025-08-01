@@ -1,7 +1,3 @@
 node_modules
-previous-versions/gt-podcast-bb-v1.php
-
-resources/js/block-variations-v1.js
-resources/js/podcast-icons-v1.js
-
+previous-versions/*
 

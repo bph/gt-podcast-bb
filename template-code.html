@@ -1,0 +1,97 @@
+<!-- wp:template-part {"slug":"header","theme":"twentytwentyfour","tagName":"header","area":"header"} /-->
+
+<!-- wp:group {"tagName":"main","align":"full","layout":{"type":"constrained"},"hideFromFeed":true} -->
+<main class="wp-block-group alignfull"><!-- wp:query-title {"type":"archive","align":"wide","style":{"typography":{"lineHeight":"1"},"spacing":{"padding":{"top":"var:preset|spacing|50"}}}} /-->
+
+<!-- wp:columns {"align":"wide"} -->
+<div class="wp-block-columns alignwide"><!-- wp:column -->
+<div class="wp-block-column"><!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"gtimes/episode-data","args":{"key":"podcast_description"}}}}} -->
+<p></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"fontSize":"medium"} -->
+<p class="has-medium-font-size"><strong>Subscribe via your favorite podcast app! </strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:social-links {"iconColor":"base","iconColorValue":"#f9f9f9","iconBackgroundColor":"contrast-2","iconBackgroundColorValue":"#636363","openInNewTab":true,"showLabels":true,"size":"has-normal-icon-size"} -->
+<ul class="wp-block-social-links has-normal-icon-size has-visible-labels has-icon-color has-icon-background-color"><!-- wp:social-link {"url":"https://podcasts.apple.com/us/podcast/gutenberg-changelog/id1469294475","service":"applepod"} /-->
+
+<!-- wp:social-link {"url":"https://open.spotify.com/show/620NwVKQJGdTupy36zYxvg?si=07175a6bed324e80","service":"spotify"} /-->
+
+<!-- wp:social-link {"url":"https://pca.st/7O43","service":"pocketcasts"} /-->
+
+<!-- wp:social-link {"url":"https://www.podbean.com/podcast-detail/chi7j-9904a/Gutenberg-Changelog-Podcast","service":"podbean"} /-->
+
+<!-- wp:social-link {"url":"https://www.podchaser.com/podcasts/gutenberg-changelog-878239/","service":"podchaser"} /-->
+
+<!-- wp:social-link {"url":"https://gutenbergtimes.com/feed/podcast/gutenberg-changelog/","service":"feed"} /--></ul>
+<!-- /wp:social-links --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:image {"width":"200px","metadata":{"bindings":{"url":{"source":"gtimes/episode-data","args":{"key":"podcast_image"}}}}} -->
+<figure class="wp-block-image is-resized"><img src="#" alt="" style="width:200px"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
+
+<!-- wp:query {"queryId":6,"query":{"perPage":6,"pages":0,"offset":"0","postType":"podcast","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false,"parents":[],"format":[]},"align":"wide","layout":{"type":"default"}} -->
+<div class="wp-block-query alignwide"><!-- wp:query-no-results -->
+<!-- wp:paragraph -->
+<p>No posts were found.</p>
+<!-- /wp:paragraph -->
+<!-- /wp:query-no-results -->
+
+<!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|50","bottom":"var:preset|spacing|50","left":"0","right":"0"},"margin":{"top":"0","bottom":"0"}}},"layout":{"type":"constrained"},"hideFromFeed":true} -->
+<div class="wp-block-group" style="margin-top:0;margin-bottom:0;padding-top:var(--wp--preset--spacing--50);padding-right:0;padding-bottom:var(--wp--preset--spacing--50);padding-left:0"><!-- wp:post-template {"align":"full","style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"default","columnCount":3}} -->
+<!-- wp:group {"style":{"spacing":{"blockGap":"10px","margin":{"top":"var:preset|spacing|20"},"padding":{"top":"0"}}},"layout":{"type":"flex","orientation":"vertical","flexWrap":"nowrap"},"hideFromFeed":true} -->
+<div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--20);padding-top:0"><!-- wp:post-title {"isLink":true,"style":{"layout":{"flexSize":"min(2.5rem, 3vw)","selfStretch":"fixed"}},"fontSize":"large"} /-->
+
+<!-- wp:template-part {"slug":"post-meta","theme":"twentytwentyfour"} /-->
+
+<!-- wp:columns -->
+<div class="wp-block-columns"><!-- wp:column {"width":"200px","layout":{"type":"constrained"}} -->
+<div class="wp-block-column" style="flex-basis:200px"><!-- wp:image {"width":"200px","metadata":{"bindings":{"url":{"source":"gtimes/episode-data","args":{"key":"cover_image"}}}},"align":"left","className":"is-style-default","style":{"color":[]}} -->
+<figure class="wp-block-image alignleft is-resized is-style-default"><img src="#" alt="" style="width:200px"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"width":"75%"} -->
+<div class="wp-block-column" style="flex-basis:75%"><!-- wp:post-excerpt {"excerptLength":45,"style":{"layout":{"flexSize":"min(2.5rem, 3vw)","selfStretch":"fixed"}},"textColor":"contrast-2","fontSize":"medium"} /-->
+
+<!-- wp:group {"style":{"spacing":{"padding":{"top":"0","bottom":"0","left":"var:preset|spacing|10","right":"var:preset|spacing|10"}}},"layout":{"type":"flex","flexWrap":"nowrap"},"hideFromFeed":true} -->
+<div class="wp-block-group" style="padding-top:0;padding-right:var(--wp--preset--spacing--10);padding-bottom:0;padding-left:var(--wp--preset--spacing--10)"><!-- wp:paragraph -->
+<p>recorded: </p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"gtimes/episode-data","args":{"key":"recording_date"}}}}} -->
+<p></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:button {"backgroundColor":"contrast-2","metadata":{"bindings":{"url":{"source":"gtimes/episode-data","args":{"key":"download_link"}}}},"style":{"border":{"radius":"25px","width":"2px","color":"#c2a990"}}} -->
+<div class="wp-block-button"><a class="wp-block-button__link has-contrast-2-background-color has-background has-border-color wp-element-button" href="#" style="border-color:#c2a990;border-width:2px;border-radius:25px">Download Episode</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:group --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
+
+<!-- wp:spacer {"height":"0px","style":{"layout":{"flexSize":"min(2.5rem, 3vw)","selfStretch":"fixed"}}} -->
+<div style="height:0px" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer --></div>
+<!-- /wp:group -->
+<!-- /wp:post-template -->
+
+<!-- wp:spacer {"height":"var:preset|spacing|40","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
+<div style="margin-top:0;margin-bottom:0;height:var(--wp--preset--spacing--40)" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:query-pagination {"paginationArrow":"arrow","layout":{"type":"flex","justifyContent":"space-between"}} -->
+<!-- wp:query-pagination-previous /-->
+
+<!-- wp:query-pagination-next /-->
+<!-- /wp:query-pagination --></div>
+<!-- /wp:group --></div>
+<!-- /wp:query --></main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","theme":"twentytwentyfour","tagName":"footer","area":"footer"} /-->
