@@ -343,7 +343,7 @@ function gt_register_block_templates() {
 
     // Register podcast archive template
     register_block_template(
-        'gt-podcast-bb//podcast-archive',
+        'gt-podcast-bb//archive_podcast',
         array(
             'title'       => __( 'Podcast Archive', 'gtimes' ),
             'description' => __( 'Template for displaying podcast episodes with metadata and download links.', 'gtimes' ),
