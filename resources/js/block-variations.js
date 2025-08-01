@@ -1,106 +1,183 @@
-//I create block variations for podcast data
+/**
+ * Podcast Block Variations
+ * 
+ * Registers block variations for common blocks with podcast data bindings
+ * 
+ * @package GT_Podcast_Block_Bindings
+ * @since 1.0.0
+ */
+
 import { registerBlockVariation } from '@wordpress/blocks';
+import { __ } from '@wordpress/i18n';
 
-// Podcast Block Variations for common blocks
+/**
+ * Constants
+ */
+const BINDING_SOURCE = 'gtimes/episode-data';
+const VARIATION_CATEGORY = 'media';
+const VARIATION_SCOPE = [ 'inserter' ];
 
-// Paragraph variations for podcast data
-registerBlockVariation('core/paragraph', {
-    name: 'podcast-recording-date',
-    title: 'Episode Recording Date',
-    description: 'Display the podcast episode recording date',
-    icon: 'calendar-alt',
-    category: 'media',
-    attributes: {
-        metadata: {
-            bindings: {
-                content: {
-                    source: 'gtimes/episode-data',
-                    args: { key: 'recording_date' }
-                }
-            }
-        }
-    },
-    scope: ['inserter']
-});
+/**
+ * Block variation configurations
+ */
+const BLOCK_VARIATIONS = [
+	// Paragraph variations
+	{
+		blockName: 'core/paragraph',
+		variations: [
+			{
+				name: 'podcast-recording-date',
+				title: __( 'Episode Recording Date', 'gtimes' ),
+				description: __( 'Display the podcast episode recording date', 'gtimes' ),
+				icon: 'calendar-alt',
+				bindingKey: 'recording_date',
+				bindingAttribute: 'content'
+			},
+			{
+				name: 'podcast-description',
+				title: __( 'Podcast Description', 'gtimes' ),
+				description: __( 'Display the main podcast description', 'gtimes' ),
+				icon: 'text',
+				bindingKey: 'podcast_description',
+				bindingAttribute: 'content'
+			}
+		]
+	},
+	// Button variations
+	{
+		blockName: 'core/button',
+		variations: [
+			{
+				name: 'episode-download-button',
+				title: __( 'Episode Download Button', 'gtimes' ),
+				description: __( 'Button that links to the episode audio file', 'gtimes' ),
+				icon: 'download',
+				bindingKey: 'download_link',
+				bindingAttribute: 'url',
+				additionalAttributes: {
+					text: __( 'Download Episode', 'gtimes' )
+				}
+			}
+		]
+	},
+	// Image variations
+	{
+		blockName: 'core/image',
+		variations: [
+			{
+				name: 'podcast-episode-cover',
+				title: __( 'Episode Cover Image', 'gtimes' ),
+				description: __( 'Display the episode cover image', 'gtimes' ),
+				icon: 'format-image',
+				bindingKey: 'cover_image',
+				bindingAttribute: 'url',
+				additionalAttributes: {
+					alt: __( 'Episode Cover', 'gtimes' )
+				}
+			},
+			{
+				name: 'podcast-logo-image',
+				title: __( 'Podcast Logo', 'gtimes' ),
+				description: __( 'Display the main podcast logo/image', 'gtimes' ),
+				icon: 'admin-media',
+				bindingKey: 'podcast_image',
+				bindingAttribute: 'url',
+				additionalAttributes: {
+					alt: __( 'Podcast Logo', 'gtimes' )
+				}
+			}
+		]
+	}
+];
 
-registerBlockVariation('core/paragraph', {
-    name: 'podcast-description',
-    title: 'Podcast Description', 
-    description: 'Display the main podcast description',
-    icon: 'text',
-    category: 'media',
-    attributes: {
-        metadata: {
-            bindings: {
-                content: {
-                    source: 'gtimes/episode-data',
-                    args: { key: 'podcast_description' }
-                }
-            }
-        }
-    },
-    scope: ['inserter']
-});
+/**
+ * Creates block binding metadata
+ * 
+ * @param {string} bindingKey The key for the binding source
+ * @param {string} bindingAttribute The attribute to bind to
+ * @returns {Object} Binding metadata object
+ */
+const createBindingMetadata = ( bindingKey, bindingAttribute ) => ( {
+	metadata: {
+		bindings: {
+			[ bindingAttribute ]: {
+				source: BINDING_SOURCE,
+				args: { key: bindingKey }
+			}
+		}
+	}
+} );
 
-// Button variation for download link
-registerBlockVariation('core/button', {
-    name: 'episode-download-button',  
-    title: 'Episode Download Button',
-    description: 'Button that links to the episode audio file',
-    icon: 'download',
-    category: 'media',
-    attributes: {
-        text: 'Download Episode',
+/**
+ * Creates attributes object for block variation
+ * 
+ * @param {Object} variation Variation configuration
+ * @returns {Object} Attributes object
+ */
+const createVariationAttributes = ( variation ) => {
+	const bindingMetadata = createBindingMetadata( variation.bindingKey, variation.bindingAttribute );
+	const additionalAttributes = variation.additionalAttributes || {};
+	
+	return {
+		...additionalAttributes,
+		...bindingMetadata
+	};
+};
 
-        metadata: {
-            bindings: {
-                url: {
-                    source: 'gtimes/episode-data',
-                    args: { key: 'download_link' }
-                }
-            }
-        }
-    },
-    scope: ['inserter']
-});
+/**
+ * Registers a single block variation
+ * 
+ * @param {string} blockName Block name to register variation for
+ * @param {Object} variation Variation configuration
+ */
+const registerSingleVariation = ( blockName, variation ) => {
+	const variationConfig = {
+		name: variation.name,
+		title: variation.title,
+		description: variation.description,
+		icon: variation.icon,
+		category: VARIATION_CATEGORY,
+		attributes: createVariationAttributes( variation ),
+		scope: VARIATION_SCOPE
+	};
 
-// Image variations for podcast images
-registerBlockVariation('core/image', {
-    name: 'podcast-episode-cover',
-    title: 'Episode Cover Image',
-    description: 'Display the episode cover image',
-    icon: 'format-image',
-    category: 'media', 
-    attributes: {
-        alt: 'Episode Cover',
-        metadata: {
-            bindings: {
-                url: {
-                    source: 'gtimes/episode-data',
-                    args: { key: 'cover_image' }
-                }
-            }
-        }
-    },
-    scope: ['inserter']
-});
+	registerBlockVariation( blockName, variationConfig );
+};
 
-registerBlockVariation('core/image', {
-    name: 'podcast-logo-image',
-    title: 'Podcast Logo',
-    description: 'Display the main podcast logo/image',
-    icon: 'admin-media',
-    category: 'media',
-    attributes: {
-        alt: 'Podcast Logo',
-        metadata: {
-            bindings: {
-                url: {
-                    source: 'gtimes/episode-data', 
-                    args: { key: 'podcast_image' }
-                }
-            }
-        }
-    },
-    scope: ['inserter']
-});
+/**
+ * Registers all block variations for a specific block type
+ * 
+ * @param {Object} blockConfig Block configuration with variations
+ */
+const registerBlockVariations = ( blockConfig ) => {
+	const { blockName, variations } = blockConfig;
+	
+	if ( ! Array.isArray( variations ) ) {
+		console.warn( `No variations found for block: ${ blockName }` );
+		return;
+	}
+
+	variations.forEach( ( variation ) => {
+		try {
+			registerSingleVariation( blockName, variation );
+		} catch ( error ) {
+			console.error( `Error registering variation ${ variation.name }:`, error );
+		}
+	} );
+};
+
+/**
+ * Initialize all podcast block variations
+ */
+const initializePodcastBlockVariations = () => {
+	// Ensure WordPress blocks API is available
+	if ( typeof registerBlockVariation !== 'function' ) {
+		console.error( 'WordPress blocks API not available' );
+		return;
+	}
+
+	BLOCK_VARIATIONS.forEach( registerBlockVariations );
+};
+
+// Initialize when script loads
+initializePodcastBlockVariations();
