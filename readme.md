@@ -56,6 +56,11 @@ Use block markup in the Code Editor:
   - Podcast Logo 
   - Episode Download Button 
 
+  ![Podcast block variations](podcast-description-logo.png)
+  ![Episode block variations](Episode-recording-date-coverimage.png)
+
+
   > [!TIP]
   > They all appear with their names in the Block editor inserter, except for the Download button, it only appears once there is a "Buttons" block on canvas and it is added to the parent block. 
 
+![Episode download button](Episode-download-button.png)
