@@ -198,7 +198,7 @@ function gt_get_cover_image_url( $post_id ) {
  * @return string|null Description or null
  */
 function gt_get_podcast_description() {
-    $description = get_option( 'ss_podcasting_data_description_20' );
+    $description = get_option( 'ss_podcasting_data_description' );
     return ! empty( $description ) ? wp_kses_post( $description ) : null;
 }
 
@@ -208,7 +208,7 @@ function gt_get_podcast_description() {
  * @return string|null Image URL or null
  */
 function gt_get_podcast_image_url() {
-    $image_url = get_option( 'ss_podcasting_data_image_20' );
+    $image_url = get_option( 'ss_podcasting_data_image' );
     
     if ( empty( $image_url ) ) {
         return null;
