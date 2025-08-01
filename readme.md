@@ -57,3 +57,5 @@ Use block markup in the Code Editor:
   - Episode Download Button 
 
   Note: They all appear with their names in the Block editor inserter, except for the Download button, it only appears once there is a "Buttons" block on canvas and it is added to the parent block. 
+
+File `gt-podcast-bb-improvements.php` is a complete rewrite after askinc Claude to suggest improvement regarding performancs, WP coding standards, security and defensive programming. 
