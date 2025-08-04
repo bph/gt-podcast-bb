@@ -3,7 +3,11 @@ Plugin to make podcast data available to the block editor and block themes.
 
 It adds 
 - Social Link icons for podcast direcotries 
-- BlockBindings for [Seriously Simple podcasting plugin](https://wordpress.org/plugins/seriously-simple-podcasting/) data to to be used in a custom archive template. 
+- BlockBindings for [Seriously Simple podcasting plugin](https://wordpress.org/plugins/seriously-simple-podcasting/) data to to be used in a custom archive template.
+- Block Variations for the bound blocks
+- An archive template 
+
+[![Test it with Playground](assets/Teston-WordPress-Playground%20copy.svg)](https://playground.wordpress.net?blueprint-url=https://raw.githubusercontent.com/bph/gt-podcast-bb/refs/heads/main/_blueprint/blueprint.json)
 
 ----
 
