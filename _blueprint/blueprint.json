@@ -1,39 +1,10 @@
 {
   "$schema": "https://playground.wordpress.net/blueprint-schema.json",
   "landingPage": "/wp-admin/",
-  "phpExtensionBundles": ["kitchen-sink"],
-  "preferredVersions": {
-    "php": "8.3",
-    "wp": "6.7"
-  },
+  "login": true, 
+  "plugins":[ "seriously-simple-podcasting" ],
   "steps": [
-    {
-      "step": "login",
-      "username": "admin",
-      "password": "password"
-    },
-    {
-      "step": "installTheme",
-      "themeData": {
-        "resource": "wordpress.org/themes",
-        "slug": "twentytwentyfive"
-      }
-    },
-    {
-      "step": "activateTheme",
-      "themeFolderName": "twentytwentyfive"
-    },
-    {
-      "step": "installPlugin",
-      "pluginData": {
-        "resource": "wordpress.org/plugins",
-        "slug": "seriously-simple-podcasting"
-      }
-    },
-    {
-      "step": "activatePlugin",
-      "pluginPath": "seriously-simple-podcasting/seriously-simple-podcasting.php"
-    },
+
     {
       "step": "mkdir",
       "path": "/wordpress/wp-content/plugins/gt-podcast-bb"
