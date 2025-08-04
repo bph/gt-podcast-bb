@@ -359,7 +359,7 @@ function gt_register_block_templates() {
  * @return string Template content or empty string
  */
 function gt_get_template_content() {
-    $template_file = GT_PODCAST_PLUGIN_DIR . 'template-code.html';
+    $template_file = GT_PODCAST_PLUGIN_DIR . './assets>template-code.html';
     
     if ( ! file_exists( $template_file ) ) {
         return '';
