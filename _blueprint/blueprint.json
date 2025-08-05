@@ -18,11 +18,11 @@
     },
     {
       "step": "runPHP",
-      "code": "<?php\nrequire_once 'wordpress/wp-load.php';\n\n// Set up podcast options\nupdate_option('ss_podcasting_data_description', 'Welcome to the Gutenberg Times Podcast - your source for the latest WordPress block editor news, tips, and tutorials.');\nupdate_option('ss_podcasting_data_image', 'https://picsum.photos/400/400?random=1');\necho 'Podcast options configured';\n?>"
+      "code": "<?php\nrequire_once '/wordpress/wp-load.php';\n\n// Set up podcast options\nupdate_option('ss_podcasting_data_description', 'Welcome to the Gutenberg Times Podcast - your source for the latest WordPress block editor news, tips, and tutorials.');\nupdate_option('ss_podcasting_data_image', 'https://picsum.photos/400/400?random=1');\necho 'Podcast options configured';\n?>"
     },
     {
       "step": "runPHP", 
-      "code": "<?php\nrequire_once 'wordpress/wp-load.php';\n\n// Create sample podcast posts\nfor ($i = 1; $i <= 3; $i++) {\n    $post_id = wp_insert_post(array(\n        'post_title' => 'Episode ' . $i . ': Block Editor Updates',\n        'post_content' => 'In this episode, we discuss the latest WordPress block editor updates, new features, and how block bindings revolutionize dynamic content.',\n        'post_excerpt' => 'Latest WordPress block editor news for Episode ' . $i,\n        'post_type' => 'podcast',\n        'post_status' => 'publish'\n    ));\n    \n    if ($post_id) {\n        update_post_meta($post_id, 'date_recorded', date('Y-m-d', strtotime('-' . ($i * 7) . ' days')));\n        update_post_meta($post_id, 'audio_file', 'https://www2.cs.uic.edu/~i101/SoundFiles/BabyElephantWalk60.wav');\n        update_post_meta($post_id, 'cover_image_id', 1);\n    }\n}\necho 'Created 3 sample podcast episodes';\n?>"
+      "code": "<?php\nrequire_once '/wordpress/wp-load.php';\n\n// Create sample podcast posts\nfor ($i = 1; $i <= 3; $i++) {\n    $post_id = wp_insert_post(array(\n        'post_title' => 'Episode ' . $i . ': Block Editor Updates',\n        'post_content' => 'In this episode, we discuss the latest WordPress block editor updates, new features, and how block bindings revolutionize dynamic content.',\n        'post_excerpt' => 'Latest WordPress block editor news for Episode ' . $i,\n        'post_type' => 'podcast',\n        'post_status' => 'publish'\n    ));\n    \n    if ($post_id) {\n        update_post_meta($post_id, 'date_recorded', date('Y-m-d', strtotime('-' . ($i * 7) . ' days')));\n        update_post_meta($post_id, 'audio_file', 'https://www2.cs.uic.edu/~i101/SoundFiles/BabyElephantWalk60.wav');\n        update_post_meta($post_id, 'cover_image_id', 1);\n    }\n}\necho 'Created 3 sample podcast episodes';\n?>"
     },
     {
 			"step": "writeFile",
