@@ -3,12 +3,17 @@
   "landingPage": "/",
   "login": true, 
   "plugins": ["seriously-simple-podcasting"],
-  "siteOptions": {
-    "blogname": "GT Podcast Demo",
-    "blogdescription": "Demonstrating WordPress Block Templates with Podcast Block Bindings",
-    "permalink_structure": "/%postname%/"
-  },
+  
   "steps": [
+    {
+			"step": "updateUserMeta",
+			"meta": {
+				"first_name": "Birgit",
+				"last_name": "Pauli-Haack",
+				"admin_color": "modern"
+			},
+			"userId": 1
+		},
   
     {
         "step": "resetData"
@@ -48,5 +53,13 @@
       "step": "wp-cli", 
       "command": "wp option update page_on_front 1"
     }
-  ]
+  ],
+  "siteOptions": {
+    "blogname": "GT Podcast Demo",
+    "blogdescription": "Demonstrating WordPress Block Templates with Podcast Block Bindings",
+    "permalink_structure": "/%postname%/",
+    "show_on_front": "page",
+		"page_on_front": "6",
+		"page_for_posts": "2"
+  }
 }
