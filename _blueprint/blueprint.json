@@ -25,8 +25,16 @@
       "code": "<?php\nrequire_once 'wordpress/wp-load.php';\n\n// Create sample podcast posts\nfor ($i = 1; $i <= 3; $i++) {\n    $post_id = wp_insert_post(array(\n        'post_title' => 'Episode ' . $i . ': Block Editor Updates',\n        'post_content' => 'In this episode, we discuss the latest WordPress block editor updates, new features, and how block bindings revolutionize dynamic content.',\n        'post_excerpt' => 'Latest WordPress block editor news for Episode ' . $i,\n        'post_type' => 'podcast',\n        'post_status' => 'publish'\n    ));\n    \n    if ($post_id) {\n        update_post_meta($post_id, 'date_recorded', date('Y-m-d', strtotime('-' . ($i * 7) . ' days')));\n        update_post_meta($post_id, 'audio_file', 'https://www2.cs.uic.edu/~i101/SoundFiles/BabyElephantWalk60.wav');\n        update_post_meta($post_id, 'cover_image_id', 1);\n    }\n}\necho 'Created 3 sample podcast episodes';\n?>"
     },
     {
-      "step": "runPHP",
-      "code": "<?php\nrequire_once 'wordpress/wp-load.php';\n\n// Create archive page\n$page_id = wp_insert_post(array(\n    'post_title' => 'Podcast Archive Demo',\n    'post_content' => '<!-- wp:heading --><h2>Podcast Episodes</h2><!-- /wp:heading --><!-- wp:paragraph --><p>This demonstrates the GT Podcast Block Template functionality.</p><!-- /wp:paragraph -->',\n    'post_type' => 'page',\n    'post_status' => 'publish'\n));\nif ($page_id) {\n    update_option('show_on_front', 'page');\n    update_option('page_on_front', $page_id);\n    echo 'Archive page created and set as homepage';\n}\n?>"
+      "step": "wp-cli",
+      "command": "wp post create _blueprint/demo-page-content.html --post_type=page --post_title='Podcast Archive Demo' --post_status=publish"
+    },
+    {
+      "step": "wp-cli",
+      "command": "wp option update show_on_front page"
+    },
+    {
+      "step": "wp-cli", 
+      "command": "wp option update page_on_front 1"
     }
   ]
 }
