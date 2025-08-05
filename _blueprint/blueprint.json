@@ -59,7 +59,6 @@
     "blogdescription": "Demonstrating WordPress Block Templates with Podcast Block Bindings",
     "permalink_structure": "/%postname%/",
     "show_on_front": "page",
-		"page_on_front": "6",
-		"page_for_posts": "2"
+		"page_on_front": "4"
   }
 }
