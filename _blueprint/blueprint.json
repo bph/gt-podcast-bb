@@ -1,6 +1,5 @@
 {
   "$schema": "https://playground.wordpress.net/blueprint-schema.json",
-  "landingPage": "/",
   "login": true, 
   "plugins": ["seriously-simple-podcasting"],
   
