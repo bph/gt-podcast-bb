@@ -2,7 +2,7 @@
   "$schema": "https://playground.wordpress.net/blueprint-schema.json",
   "landingPage": "/wp-admin/",
   "login": true, 
-  "plugins": ["seriously-simple-podcasting, https://github.com/bph/gt-podcast-bb"],
+  "plugins": ["seriously-simple-podcasting"],
   "siteOptions": {
     "blogname": "GT Podcast Demo",
     "blogdescription": "Demonstrating WordPress Block Templates with Podcast Block Bindings",
@@ -12,6 +12,13 @@
   
     {
         "step": "resetData"
+    },
+    {
+        "step": "installPlugin",
+        "pluginData": {
+          "resource": "url",
+          "url": "https://github-proxy.com/proxy/?repo=bph/gt-podcast-bb"
+        }
     },
     {
       "step": "runPHP",
