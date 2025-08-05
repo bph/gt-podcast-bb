@@ -43,7 +43,7 @@
 		},
     {
       "step": "wp-cli",
-      "command": "wp post create --post_type=page --post_title='Podcast Archive Demo' --post_status=publish --post_content_file=wp-content/podcast-page-content.md"
+      "command": "wp post create --post_type=page --post_title='Podcast Archive Demo' --post_status=publish /wordpress/wp-content/podcast-page-content.md"
     },
     {
       "step": "wp-cli",
