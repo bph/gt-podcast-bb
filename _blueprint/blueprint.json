@@ -2,26 +2,14 @@
   "$schema": "https://playground.wordpress.net/blueprint-schema.json",
   "landingPage": "/wp-admin/",
   "login": true, 
-  "plugins": ["seriously-simple-podcasting"],
+  "plugins": ["seriously-simple-podcasting, https://github.com/bph/gt-podcast-bb"],
   "siteOptions": {
     "blogname": "GT Podcast Demo",
     "blogdescription": "Demonstrating WordPress Block Templates with Podcast Block Bindings",
     "permalink_structure": "/%postname%/"
   },
   "steps": [
-    
-    {
-			"step": "installPlugin",
-			"pluginData": {
-				"resource": "git:directory",
-				"url": "https://github.com/bph/gt-podcast-bb",
-				"ref": "HEAD",
-				"path": "plugins/gt-podcast-bb"
-			},
-			"options": {
-				"activate": true
-			}
-		},
+  
     {
         "step": "resetData"
     },
