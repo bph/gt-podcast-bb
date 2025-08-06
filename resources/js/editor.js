@@ -1,5 +1,5 @@
 /**
- * Defines the `x3p0/site` block binding source.
+ * Defines the `gtimes/episode-data` block binding source.
  *
  */
 
