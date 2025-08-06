@@ -247,6 +247,14 @@ function gt_enqueue_editor_assets() {
         $dir,
         $url
     );
+    
+    // Enqueue editor script for block bindings
+    gt_enqueue_script_with_asset(
+        'gt-podcast-editor',
+        'public/js/editor.js',
+        $dir,
+        $url
+    );
 }
 
 /**
