@@ -3,7 +3,7 @@
  * Plugin Name:       GT Podcast Block Bindings
  * Plugin URI:        https://icodeforapurpose.com/gt-podcast
  * Description:       Exploring the Block Bindings API in the editor.
- * Version:           1.0.0
+ * Version:           0.1.0
  * Requires at least: 6.7
  * Requires PHP:      7.4
  * Author:            Birgit Pauli-Haack 
