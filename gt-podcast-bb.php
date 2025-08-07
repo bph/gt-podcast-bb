@@ -63,11 +63,32 @@ function gt_register_binding_sources() {
         return;
     }
 
+    // Register Episode Data source (for recording date, podcast description, download link)
     register_block_bindings_source( 
         'gtimes/episode-data', 
         array(
             'label'              => __( 'Episode Data', 'gtimes' ),
             'get_value_callback' => 'gt_episode_data_callback',
+            'uses_context'       => array( 'postId' ),
+        )
+    );
+    
+    // Register Cover Image source
+    register_block_bindings_source( 
+        'gtimes/cover-image', 
+        array(
+            'label'              => __( 'Cover Image', 'gtimes' ),
+            'get_value_callback' => 'gt_cover_image_callback',
+            'uses_context'       => array( 'postId' ),
+        )
+    );
+    
+    // Register Podcast Image source
+    register_block_bindings_source( 
+        'gtimes/podcast-image', 
+        array(
+            'label'              => __( 'Podcast Image', 'gtimes' ),
+            'get_value_callback' => 'gt_podcast_image_callback',
             'uses_context'       => array( 'postId' ),
         )
     );
@@ -134,6 +155,43 @@ function gt_episode_data_callback( $source_args, $block_instance, $attribute_nam
         default:
             return null;
     }
+}
+
+/**
+ * Callback function for cover image block bindings
+ *
+ * @param array $source_args    Arguments passed to the binding source
+ * @param WP_Block $block_instance The block instance
+ * @param string $attribute_name The attribute name being bound
+ * @return string|null The bound value or null if not found
+ */
+function gt_cover_image_callback( $source_args, $block_instance, $attribute_name ) {
+    // Get post ID with fallback
+    $post_id = 0;
+    if ( isset( $block_instance->context['postId'] ) ) {
+        $post_id = absint( $block_instance->context['postId'] );
+    }
+    if ( ! $post_id ) {
+        $post_id = get_the_ID();
+    }
+    
+    if ( ! $post_id || ! is_numeric( $post_id ) ) {
+        return null;
+    }
+
+    return gt_get_cover_image_url( $post_id );
+}
+
+/**
+ * Callback function for podcast image block bindings
+ *
+ * @param array $source_args    Arguments passed to the binding source
+ * @param WP_Block $block_instance The block instance
+ * @param string $attribute_name The attribute name being bound
+ * @return string|null The bound value or null if not found
+ */
+function gt_podcast_image_callback( $source_args, $block_instance, $attribute_name ) {
+    return gt_get_podcast_image_url();
 }
 
 /**
@@ -367,7 +425,7 @@ function gt_register_block_templates() {
  * @return string Template content or empty string
  */
 function gt_get_template_content() {
-    $template_file = GT_PODCAST_PLUGIN_DIR . './assets>template-code.html';
+    $template_file = GT_PODCAST_PLUGIN_DIR . 'templates/template-code.html';
     
     if ( ! file_exists( $template_file ) ) {
         return '';
