@@ -21,6 +21,13 @@ episode and podcast data in the block editor. It also includes social icon links
 4. Use the social icon links to link to your podcast on popular directories.
 The plugin requires Seriously Simple Podcasting plugin and Gutenberg plugin to be installed and activated.
 === Changelog ===
+= 0.2.1 =
+* remove gitignore
+* add /languages folder
+* consistent text domain with plugin name. 
+* rename Test-on-WordPress-playground.svg
+* updated readme.md 
+
 = 0.2.0 =
 * Fixed placeholders for block variations
 * Fixed template association with `taxonomy-series` for podcast archive. 
