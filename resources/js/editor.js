@@ -8,13 +8,13 @@ import { __, sprintf } from '@wordpress/i18n';
 
 // Episode Data source (for recording date, podcast description, download link)
 registerBlockBindingsSource({
-	name: 'gtimes/episode-data',
-	label: __('Episode data', 'gtimes'),
+	name: 'gt-podcast-bb/episode-data',
+	label: __('Episode data', 'gt-podcast-bb'),
 	getValues({ bindings }) {
 		const placeholders = {
-			recording_date: __('Recording date', 'gtimes'),
-			download_link: __('Download link', 'gtimes'),
-			podcast_description: __('Podcast description', 'gtimes'),
+			recording_date: __('Recording date', 'gt-podcast-bb'),
+			download_link: __('Download link', 'gt-podcast-bb'),
+			podcast_description: __('Podcast description', 'gt-podcast-bb'),
 		};
 
 		const values = {};
@@ -31,12 +31,12 @@ registerBlockBindingsSource({
 
 // Cover Image source
 registerBlockBindingsSource({
-	name: 'gtimes/cover-image',
-	label: __('Cover Image', 'gtimes'),
+	name: 'gt-podcast-bb/cover-image',
+	label: __('Cover Image', 'gt-podcast-bb'),
 	getValues({ bindings }) {
 		const values = {};
 		for (const [ attributeName, source ] of Object.entries(bindings)) {
-			values[attributeName] = __('Cover Image', 'gtimes');
+			values[attributeName] = __('Cover Image', 'gt-podcast-bb');
 		}
 		return values;
 	},
@@ -45,12 +45,12 @@ registerBlockBindingsSource({
 
 // Podcast Image source
 registerBlockBindingsSource({
-	name: 'gtimes/podcast-image',
-	label: __('Podcast Image', 'gtimes'),
+	name: 'gt-podcast-bb/podcast-image',
+	label: __('Podcast Image', 'gt-podcast-bb'),
 	getValues({ bindings }) {
 		const values = {};
 		for (const [ attributeName, source ] of Object.entries(bindings)) {
-			values[attributeName] = __('Podcast Image', 'gtimes');
+			values[attributeName] = __('Podcast Image', 'gt-podcast-bb');
 		}
 		return values;
 	},

@@ -13,7 +13,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * Constants
  */
-const BINDING_SOURCE = 'gtimes/episode-data';
+const BINDING_SOURCE = 'gt-podcast-bb/episode-data';
 const VARIATION_CATEGORY = 'media';
 const VARIATION_SCOPE = [ 'inserter' ];
 
@@ -27,16 +27,16 @@ const BLOCK_VARIATIONS = [
 		variations: [
 			{
 				name: 'podcast-recording-date',
-				title: __( 'Episode Recording Date', 'gtimes' ),
-				description: __( 'Display the podcast episode recording date', 'gtimes' ),
+				title: __( 'Episode Recording Date', 'gt-podcast-bb' ),
+				description: __( 'Display the podcast episode recording date', 'gt-podcast-bb' ),
 				icon: 'calendar-alt',
 				bindingKey: 'recording_date',
 				bindingAttribute: 'content'
 			},
 			{
 				name: 'podcast-description',
-				title: __( 'Podcast Description', 'gtimes' ),
-				description: __( 'Display the main podcast description', 'gtimes' ),
+				title: __( 'Podcast Description', 'gt-podcast-bb' ),
+				description: __( 'Display the main podcast description', 'gt-podcast-bb' ),
 				icon: 'text',
 				bindingKey: 'podcast_description',
 				bindingAttribute: 'content'
@@ -49,13 +49,13 @@ const BLOCK_VARIATIONS = [
 		variations: [
 			{
 				name: 'episode-download-button',
-				title: __( 'Episode Download Button', 'gtimes' ),
-				description: __( 'Button that links to the episode audio file', 'gtimes' ),
+				title: __( 'Episode Download Button', 'gt-podcast-bb' ),
+				description: __( 'Button that links to the episode audio file', 'gt-podcast-bb' ),
 				icon: 'download',
 				bindingKey: 'download_link',
 				bindingAttribute: 'url',
 				additionalAttributes: {
-					text: __( 'Download Episode', 'gtimes' )
+					text: __( 'Download Episode', 'gt-podcast-bb' )
 				}
 			}
 		]
@@ -66,24 +66,24 @@ const BLOCK_VARIATIONS = [
 		variations: [
 			{
 				name: 'podcast-episode-cover',
-				title: __( 'Episode Cover Image', 'gtimes' ),
-				description: __( 'Display the episode cover image', 'gtimes' ),
+				title: __( 'Episode Cover Image', 'gt-podcast-bb' ),
+				description: __( 'Display the episode cover image', 'gt-podcast-bb' ),
 				icon: 'format-image',
 				bindingKey: 'cover_image',
 				bindingAttribute: 'url',
 				additionalAttributes: {
-					alt: __( 'Episode Cover', 'gtimes' )
+					alt: __( 'Episode Cover', 'gt-podcast-bb' )
 				}
 			},
 			{
 				name: 'podcast-logo-image',
-				title: __( 'Podcast Logo', 'gtimes' ),
-				description: __( 'Display the main podcast logo/image', 'gtimes' ),
+				title: __( 'Podcast Logo', 'gt-podcast-bb' ),
+				description: __( 'Display the main podcast logo/image', 'gt-podcast-bb' ),
 				icon: 'admin-media',
 				bindingKey: 'podcast_image',
 				bindingAttribute: 'url',
 				additionalAttributes: {
-					alt: __( 'Podcast Logo', 'gtimes' )
+					alt: __( 'Podcast Logo', 'gt-podcast-bb' )
 				}
 			}
 		]
