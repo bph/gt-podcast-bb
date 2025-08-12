@@ -7,7 +7,7 @@ It adds
 - Block Variations for the bound blocks
 - An archive template 
 
-[![Test it with Playground](assets/Teston-WordPress-Playground%20copy.svg)](https://playground.wordpress.net?blueprint-url=https://raw.githubusercontent.com/bph/gt-podcast-bb/refs/heads/main/_blueprint/blueprint.json)
+[![Test it with Playground](assets/Test-on-WordPress-Playground.svg)](https://playground.wordpress.net?blueprint-url=https://raw.githubusercontent.com/bph/gt-podcast-bb/refs/heads/main/_blueprint/blueprint.json)
 
 ----
 
