@@ -20,6 +20,10 @@ episode and podcast data in the block editor. It also includes social icon links
 4. Use the social icon links to link to your podcast on popular directories.
 The plugin requires Seriously Simple Podcasting plugin to be installed and activated.
 === Changelog ===
+= 0.2.0 =
+* Fixed placeholders for block variations
+* Fixed template association with `taxonomy-series` for podcast archive. 
+* Restrict podcast info to default _20 series. 
 = 0.1.0 =
 * Initial release with block bindings for episode and podcast data.
 * Added social icon links for popular podcast directories.
