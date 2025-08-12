@@ -5,7 +5,9 @@ It adds
 - Social Link icons for podcast direcotries 
 - BlockBindings for [Seriously Simple podcasting plugin](https://wordpress.org/plugins/seriously-simple-podcasting/) data to to be used in a custom archive template.
 - Block Variations for the bound blocks
-- An archive template 
+- An archive template for `taxonomy-series`
+
+Besides the Seriously Simply Podcasting plugins it also need the Gutenberg plugin v. 21.1 to work. 
 
 [![Test it with Playground](assets/Test-on-WordPress-Playground.svg)](https://playground.wordpress.net?blueprint-url=https://raw.githubusercontent.com/bph/gt-podcast-bb/refs/heads/main/_blueprint/blueprint.json)
 
