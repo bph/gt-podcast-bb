@@ -25,6 +25,10 @@ The plugin requires Seriously Simple Podcasting plugin and Gutenberg plugin to b
 * Fixed placeholders for block variations
 * Fixed template association with `taxonomy-series` for podcast archive. 
 * Restrict podcast info to default _20 series. 
+* Text domain consistency (gt-podcast-bb throughout)
+* Block binding source names updated (gt-podcast-bb/episode-data, etc.)
+* Template HTML updated with correct binding sources
+* WordPress 6.8 requirement with Gutenberg dependency
 = 0.1.0 =
 * Initial release with block bindings for episode and podcast data.
 * Added social icon links for popular podcast directories.

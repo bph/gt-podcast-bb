@@ -34,7 +34,6 @@ if ( ! defined( 'GT_PODCAST_PLUGIN_URL' ) ) {
  * Initialize the plugin
  */
 function gt_podcast_init() {
-    error_log( 'GT Podcast BB: Plugin initializing' );
     
     // Register binding sources
     gt_register_binding_sources();
@@ -47,24 +46,8 @@ function gt_podcast_init() {
     
     // Register block templates
     gt_register_block_templates();
-    
-    // Add render block hook to debug block rendering
-    add_filter( 'render_block', 'gt_debug_block_render', 10, 2 );
 }
 add_action( 'init', 'gt_podcast_init' );
-
-/**
- * Debug block rendering to see if blocks with bindings are being processed
- */
-function gt_debug_block_render( $block_content, $block ) {
-    // Check if this block has bindings
-    if ( isset( $block['attrs']['metadata']['bindings'] ) ) {
-        error_log( 'GT Podcast BB: Found block with bindings - Block: ' . $block['blockName'] );
-        error_log( 'GT Podcast BB: Bindings: ' . print_r( $block['attrs']['metadata']['bindings'], true ) );
-    }
-    
-    return $block_content;
-}
 
 /**
  * Register block binding sources for podcast data
@@ -75,11 +58,8 @@ function gt_register_binding_sources() {
     // Check if function exists (WordPress 6.5+)
     if ( ! function_exists( 'register_block_bindings_source' ) ) {
         add_action( 'admin_notices', 'gt_admin_notice_wp_version' );
-        error_log( 'GT Podcast BB: register_block_bindings_source function does not exist' );
         return;
     }
-    
-    error_log( 'GT Podcast BB: Registering block binding sources' );
 
     // Register Episode Data source (for recording date, podcast description, download link)
     register_block_bindings_source( 
@@ -149,44 +129,28 @@ function gt_episode_data_callback( $source_args, $block_instance, $attribute_nam
     }
     
     if ( ! $post_id || ! is_numeric( $post_id ) ) {
-        // Debug: log when no post ID is found
-        error_log( 'GT Podcast BB: No valid post ID found. Context: ' . print_r( $block_instance->context, true ) );
         return null;
     }
 
     $key = sanitize_key( $source_args['key'] );
     
-    // Debug: log what we're looking for
-    error_log( "GT Podcast BB: Looking for key '{$key}' on post ID {$post_id}" );
-    
     switch ( $key ) {
         case 'recording_date':
-            $result = gt_get_recording_date( $post_id );
-            error_log( "GT Podcast BB: Recording date result: " . var_export( $result, true ) );
-            return $result;
+            return gt_get_recording_date( $post_id );
             
         case 'download_link':
-            $result = gt_get_download_link( $post_id );
-            error_log( "GT Podcast BB: Download link result: " . var_export( $result, true ) );
-            return $result;
+            return gt_get_download_link( $post_id );
             
         case 'cover_image':
-            $result = gt_get_cover_image_url( $post_id );
-            error_log( "GT Podcast BB: Cover image result: " . var_export( $result, true ) );
-            return $result;
+            return gt_get_cover_image_url( $post_id );
             
         case 'podcast_description':
-            $result = gt_get_podcast_description();
-            error_log( "GT Podcast BB: Podcast description result: " . var_export( $result, true ) );
-            return $result;
+            return gt_get_podcast_description();
             
         case 'podcast_image':
-            $result = gt_get_podcast_image_url();
-            error_log( "GT Podcast BB: Podcast image result: " . var_export( $result, true ) );
-            return $result;
+            return gt_get_podcast_image_url();
             
         default:
-            error_log( "GT Podcast BB: Unknown key requested: " . $key );
             return null;
     }
 }
@@ -237,20 +201,8 @@ function gt_podcast_image_callback( $source_args, $block_instance, $attribute_na
 function gt_get_recording_date( $post_id ) {
     $recording_date = get_post_meta( $post_id, 'date_recorded', true );
     
-    // Debug: log what we found
-    error_log( "GT Podcast BB: Recording date for post {$post_id}: " . var_export( $recording_date, true ) );
     
     if ( empty( $recording_date ) ) {
-        // Debug: try alternative meta keys that might be used
-        $alt_keys = [ 'recording_date', '_recording_date', 'episode_date', '_episode_date' ];
-        foreach ( $alt_keys as $alt_key ) {
-            $alt_date = get_post_meta( $post_id, $alt_key, true );
-            if ( ! empty( $alt_date ) ) {
-                error_log( "GT Podcast BB: Found alternative date key '{$alt_key}': " . var_export( $alt_date, true ) );
-                $recording_date = $alt_date;
-                break;
-            }
-        }
         
         if ( empty( $recording_date ) ) {
             return null;
@@ -260,14 +212,10 @@ function gt_get_recording_date( $post_id ) {
     // Validate date before processing
     $timestamp = strtotime( $recording_date );
     if ( false === $timestamp ) {
-        error_log( "GT Podcast BB: Invalid date format: " . $recording_date );
         return null;
     }
     
-    $formatted_date = date_i18n( get_option( 'date_format' ), $timestamp );
-    error_log( "GT Podcast BB: Formatted date: " . $formatted_date );
-    
-    return $formatted_date;
+    return date_i18n( get_option( 'date_format' ), $timestamp );
 }
 
 /**
@@ -469,7 +417,6 @@ function gt_register_block_templates() {
         'post_types'  => array( 'episode' ),
     );
     
-    error_log( 'GT Podcast BB: Registering template "gt-podcast-bb//taxonomy-series" with content length: ' . strlen( $template_content ) );
     
     register_block_template( 'gt-podcast-bb//taxonomy-series', $template_args );
 }
@@ -482,21 +429,17 @@ function gt_register_block_templates() {
 function gt_get_template_content() {
     $template_file = GT_PODCAST_PLUGIN_DIR . 'templates/template-code.html';
     
-    error_log( 'GT Podcast BB: Loading template from: ' . $template_file );
     
     if ( ! file_exists( $template_file ) ) {
-        error_log( 'GT Podcast BB: Template file does not exist' );
         return '';
     }
     
     $content = file_get_contents( $template_file );
     
     if ( false === $content ) {
-        error_log( 'GT Podcast BB: Failed to read template file' );
         return '';
     }
     
-    error_log( 'GT Podcast BB: Template loaded successfully, length: ' . strlen( $content ) );
     
     return wp_kses_post( $content );
 }
