@@ -87,6 +87,20 @@ const BLOCK_VARIATIONS = [
 				}
 			}
 		]
+	},
+	// Audio variations
+	{
+		blockName: 'core/audio',
+		variations: [
+			{
+				name: 'episode-audio-player',
+				title: __( 'Episode Audio Player', 'gt-podcast-bb' ),
+				description: __( 'Audio player for the podcast episode', 'gt-podcast-bb' ),
+				icon: 'controls-volumeon',
+				bindingKey: 'download_link',
+				bindingAttribute: 'src'
+			}
+		]
 	}
 ];
 
