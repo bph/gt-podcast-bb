@@ -7,7 +7,7 @@ It adds
 - Block Variations for the bound blocks
 - An archive template for `taxonomy-series`
 
-Besides the Seriously Simply Podcasting plugins it also need the Gutenberg plugin v. 21.1 to work. 
+Besides the Seriously Simply Podcasting plugins it also need the [Gutenberg plugin v. 21.1](https://wordpress.org/plugins/gutenberg) or WordPress 6.9 after its release to work. 
 
 [![Test it with Playground](assets/Test-on-WordPress-Playground.svg)](https://playground.wordpress.net?blueprint-url=https://raw.githubusercontent.com/bph/gt-podcast-bb/refs/heads/main/_blueprint/blueprint.json)
 
