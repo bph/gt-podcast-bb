@@ -98,9 +98,7 @@ const BLOCK_VARIATIONS = [
 				description: __( 'Audio player for the podcast episode', 'gt-podcast-bb' ),
 				icon: 'controls-volumeon',
 				bindingKey: 'download_link',
-				bindingAttribute: 'src',
-				innerBlocks: [],
-				example: {}
+				bindingAttribute: 'src'
 			}
 		]
 	}
@@ -156,6 +154,11 @@ const registerSingleVariation = ( blockName, variation ) => {
 		attributes: createVariationAttributes( variation ),
 		scope: VARIATION_SCOPE
 	};
+
+	// Add innerBlocks for audio block to ensure proper structure
+	if ( blockName === 'core/audio' ) {
+		variationConfig.innerBlocks = [];
+	}
 
 	registerBlockVariation( blockName, variationConfig );
 };
