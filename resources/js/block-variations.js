@@ -98,7 +98,9 @@ const BLOCK_VARIATIONS = [
 				description: __( 'Audio player for the podcast episode', 'gt-podcast-bb' ),
 				icon: 'controls-volumeon',
 				bindingKey: 'download_link',
-				bindingAttribute: 'src'
+				bindingAttribute: 'src',
+				innerBlocks: [],
+				example: {}
 			}
 		]
 	}
