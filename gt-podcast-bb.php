@@ -258,12 +258,34 @@ function gt_get_cover_image_url( $post_id ) {
 }
 
 /**
+ * Get podcast option with series-specific fallback
+ *
+ * @param string $type Option type (description, image, title, etc.)
+ * @return string|null Option value or null
+ */
+function gt_get_podcast_option( $type ) {
+    // Try to get series-specific data first
+    $series_id = get_option( 'ss_podcasting_default_series' );
+    if ( ! empty( $series_id ) ) {
+        $series_key = "ss_podcasting_data_{$type}_{$series_id}";
+        $series_value = get_option( $series_key );
+        if ( ! empty( $series_value ) ) {
+            return $series_value;
+        }
+    }
+    
+    // Fallback to base option
+    $base_key = "ss_podcasting_data_{$type}";
+    return get_option( $base_key );
+}
+
+/**
  * Get podcast description from options
  *
  * @return string|null Description or null
  */
 function gt_get_podcast_description() {
-    $description = get_option( 'ss_podcasting_data_description_20' );
+    $description = gt_get_podcast_option( 'description' );
     return ! empty( $description ) ? wp_kses_post( $description ) : null;
 }
 
@@ -273,7 +295,7 @@ function gt_get_podcast_description() {
  * @return string|null Image URL or null
  */
 function gt_get_podcast_image_url() {
-    $image_url = get_option( 'ss_podcasting_data_image_20' );
+    $image_url = gt_get_podcast_option( 'image' );
     
     if ( empty( $image_url ) ) {
         return null;
