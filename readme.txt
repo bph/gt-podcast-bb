@@ -1,4 +1,4 @@
-=== GT Podcast BB ===
+=== Podcast data for block themes ===
 Contributors: bph
 Donate link: https://ko-fi.com/paulchenhaack
 Tags: podcast, block-bindings, block-editor, gutenberg, episode
