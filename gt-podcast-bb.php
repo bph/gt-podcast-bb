@@ -457,13 +457,12 @@ function gt_register_block_templates() {
 
     // Register podcast archive template
     $template_args = array(
-        'title'       => __( 'Podcast Archive', 'gt-podcast-bb' ),
+        'title'       => __( 'Podcast Series Archive', 'gt-podcast-bb' ),
         'description' => __( 'Template for displaying podcast episodes with metadata and download links.', 'gt-podcast-bb' ),
         'content'     => $template_content,
-        'post_types'  => array( 'episode' ),
     );
-    
-    
+
+
     register_block_template( 'gt-podcast-bb//taxonomy-series', $template_args );
 }
 
@@ -530,7 +529,7 @@ function gt_unregister_block_templates() {
     }
     
     // Unregister podcast archive template
-    unregister_block_template( 'gt-podcast-bb//podcast-archive' );
+    unregister_block_template( 'gt-podcast-bb//taxonomy-series' );
 }
 
 /**
