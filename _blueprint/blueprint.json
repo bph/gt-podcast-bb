@@ -1,7 +1,8 @@
 {
   "$schema": "https://playground.wordpress.net/blueprint-schema.json",
   "login": true, 
-  "plugins": ["seriously-simple-podcasting"],
+  "plugins": ["seriously-simple-podcasting", "gutenberg" ],
+
   
   "steps": [
     {
@@ -17,13 +18,7 @@
     {
         "step": "resetData"
     },
-    {
-        "step": "installPlugin",
-        "pluginData": {
-          "resource": "url",
-          "url": "https://github-proxy.com/proxy/?repo=bph/gt-podcast-bb"
-        }
-    },
+
     {
       "step": "runPHP",
       "code": "<?php\nrequire_once '/wordpress/wp-load.php';\n\n// Set up podcast options\nupdate_option('ss_podcasting_data_description', 'Welcome to the Gutenberg Times Podcast - your source for the latest WordPress block editor news, tips, and tutorials.');\nupdate_option('ss_podcasting_data_image', 'https://picsum.photos/400/400?random=1');\necho 'Podcast options configured';\n?>"

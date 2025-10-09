@@ -41,10 +41,6 @@ function gt_podcast_init() {
     // Register social link services
     add_filter( 'block_core_social_link_get_services', 'gt_register_social_services' );
     
-    // Add block binding filter for audio block (WordPress 6.9+)
-    if ( version_compare( get_bloginfo( 'version' ), '6.9', '>=' ) ) {
-        add_filter( 'block_bindings_supported_attributes_core/audio', 'gt_add_audio_binding_support' );
-    }
     
     // Enqueue editor assets
     add_action( 'enqueue_block_editor_assets', 'gt_enqueue_editor_assets' );
@@ -231,13 +227,31 @@ function gt_get_recording_date( $post_id ) {
  */
 function gt_get_download_link( $post_id ) {
     $download_link = get_post_meta( $post_id, 'audio_file', true );
-    
+
+    // Debug via admin notice
+    if ( is_admin() ) {
+        $debug_msg = "GT Podcast Debug - Post ID: $post_id, Audio File: " . var_export( $download_link, true );
+        add_action( 'admin_notices', function() use ( $debug_msg ) {
+            echo '<div class="notice notice-info"><p>' . esc_html( $debug_msg ) . '</p></div>';
+        });
+    }
+
     if ( empty( $download_link ) ) {
         return null;
     }
-    
+
     // Validate URL
-    return filter_var( $download_link, FILTER_VALIDATE_URL ) ? $download_link : null;
+    $validated = filter_var( $download_link, FILTER_VALIDATE_URL ) ? $download_link : null;
+
+    // Debug validation result
+    if ( is_admin() ) {
+        $validation_msg = "GT Podcast Debug - Validated URL: " . var_export( $validated, true );
+        add_action( 'admin_notices', function() use ( $validation_msg ) {
+            echo '<div class="notice notice-info"><p>' . esc_html( $validation_msg ) . '</p></div>';
+        });
+    }
+
+    return $validated;
 }
 
 /**
@@ -380,24 +394,6 @@ function gt_enqueue_script_with_asset( $handle, $file_path, $dir, $url ) {
     );
 }
 
-/**
- * Add binding support for audio block src attribute
- *
- * @param array $supported_attributes Current supported attributes
- * @return array Modified supported attributes
- */
-function gt_add_audio_binding_support( $supported_attributes ) {
-    if ( ! is_array( $supported_attributes ) ) {
-        $supported_attributes = array();
-    }
-    
-    // Add 'src' attribute to bindable attributes for audio block
-    if ( ! in_array( 'src', $supported_attributes, true ) ) {
-        $supported_attributes[] = 'src';
-    }
-    
-    return $supported_attributes;
-}
 
 /**
  * Register custom social link services for podcast platforms
