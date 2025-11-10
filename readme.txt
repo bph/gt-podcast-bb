@@ -32,11 +32,7 @@ episode and podcast data in the block editor. It also includes social icon links
 === Changelog ===
 = 0.3.5 = 
 * Fixed template registration
-* Removed audio block bindings (needs more testing)
-
-= 0.3.1 =
 * Fixed the method to identify the default podcast series
-* added bindings to the audio block (new to WordPress 6.9, requires WordPress nightly)
 * added plugin icon 
 
 = 0.2.1 =
