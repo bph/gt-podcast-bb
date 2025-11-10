@@ -1,0 +1,91 @@
+#!/bin/bash
+
+# Deploy Tag Script for GT Podcast Plugin
+# This script creates a new tag and commits to WordPress.org SVN repository
+
+set -e  # Exit on error
+
+# Check if version argument is provided
+if [ -z "$1" ]; then
+    echo "❌ Error: Version number required"
+    echo "Usage: ./deploy-tag.sh [version]"
+    echo "Example: ./deploy-tag.sh 0.3.6"
+    exit 1
+fi
+
+VERSION=$1
+
+echo "🚀 Starting deployment for version $VERSION..."
+
+# Configuration
+PROJECT_DIR="/Users/pauli/gt-podcast-bb"
+SVN_DIR="$PROJECT_DIR/svn-local/gt-podcast-bb"
+SVN_TRUNK="$SVN_DIR/trunk"
+SVN_TAG="$SVN_DIR/tags/$VERSION"
+
+# Verify trunk exists and has files
+if [ ! -d "$SVN_TRUNK" ] || [ -z "$(ls -A "$SVN_TRUNK")" ]; then
+    echo "❌ Error: Trunk is empty or doesn't exist"
+    echo "Run ./package-and-test.sh first to create trunk"
+    exit 1
+fi
+
+# Check if tag already exists
+if [ -d "$SVN_TAG" ]; then
+    echo "⚠️  Warning: Tag $VERSION already exists"
+    read -p "Do you want to overwrite it? (y/N): " -n 1 -r
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo "Deployment cancelled"
+        exit 0
+    fi
+    rm -rf "$SVN_TAG"
+fi
+
+echo "📋 Creating tag $VERSION from trunk..."
+mkdir -p "$SVN_DIR/tags"
+cp -r "$SVN_TRUNK" "$SVN_TAG"
+
+echo "✅ Tag created successfully!"
+echo ""
+echo "📍 Tag location: $SVN_TAG"
+echo ""
+
+# Prompt for SVN commit
+read -p "Do you want to commit to WordPress.org SVN now? (y/N): " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    cd "$SVN_DIR"
+
+    echo "📤 Adding new files to SVN..."
+    svn add --force trunk/* tags/$VERSION/* 2>/dev/null || true
+
+    echo "🗑️  Removing deleted files from SVN..."
+    svn status | grep '^!' | awk '{print $2}' | xargs -r svn delete 2>/dev/null || true
+
+    echo ""
+    echo "📋 SVN Status:"
+    svn status
+    echo ""
+
+    read -p "Commit message (or press Enter for default): " COMMIT_MSG
+    if [ -z "$COMMIT_MSG" ]; then
+        COMMIT_MSG="Tagging version $VERSION"
+    fi
+
+    echo ""
+    echo "🚀 Committing to WordPress.org..."
+    svn commit -m "$COMMIT_MSG"
+
+    echo ""
+    echo "🎉 Successfully deployed version $VERSION to WordPress.org!"
+else
+    echo ""
+    echo "⏸️  Tag created locally but not committed to WordPress.org"
+    echo "To commit later, run:"
+    echo "  cd $SVN_DIR"
+    echo "  svn add --force trunk/* tags/$VERSION/*"
+    echo "  svn commit -m 'Tagging version $VERSION'"
+fi
+
+echo ""
