@@ -33,7 +33,8 @@ episode and podcast data in the block editor. It also includes social icon links
 = 0.3.5 = 
 * Fixed template registration
 * Fixed the method to identify the default podcast series
-* added plugin icon 
+* added plugin icon
+* removed hard-coded URLs from the social icons in the template 
 
 = 0.2.1 =
 * remove gitignore
