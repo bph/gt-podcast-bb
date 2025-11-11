@@ -14,8 +14,8 @@ Adds block bindings for episode and podcast data, social icon links for podcast 
 === Description ===
 ** Still in beta stage, use at your own risk..**
 
-This plugin provides block bindings for the [Seriously Simple Podcasting](https://wordpress.org/plugins/seriously-simple-podcasting/) plugin, allowing you to easily access
-episode and podcast data in the block editor. It also includes social icon links for popular podcast directories and a template for a podcast series archive page. 
+This plugin provides block bindings for the [Seriously Simple Podcasting](https://wordpress.org/plugins/seriously-simple-podcasting/) plugin, allowing you to easily access episode and podcast data in the block editor. 
+It also includes social icon links for popular podcast directories and a template for a podcast series archive page. 
 
 == Frequently Asked Questions == 
 == Upgrade Notice ==
