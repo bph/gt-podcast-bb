@@ -57,11 +57,21 @@ echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     cd "$SVN_DIR"
 
-    echo "📤 Adding new files to SVN..."
-    svn add --force trunk/* tags/$VERSION/* 2>/dev/null || true
+    echo "📤 Adding tag directory to SVN..."
+    # First add the tag directory itself
+    svn add "tags/$VERSION" 2>/dev/null || true
+
+    echo "📤 Adding trunk files to SVN..."
+    # Add all files in trunk
+    svn add --force trunk/* 2>/dev/null || true
 
     echo "🗑️  Removing deleted files from SVN..."
-    svn status | grep '^!' | awk '{print $2}' | xargs -r svn delete 2>/dev/null || true
+    # Handle deleted files (macOS compatible - without -r flag)
+    svn status | grep '^!' | awk '{print $2}' | while read file; do
+        if [ -n "$file" ]; then
+            svn delete "$file" 2>/dev/null || true
+        fi
+    done
 
     echo ""
     echo "📋 SVN Status:"
@@ -79,12 +89,16 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 
     echo ""
     echo "🎉 Successfully deployed version $VERSION to WordPress.org!"
+    echo ""
+    echo "Check your plugin page in 2-3 minutes:"
+    echo "  https://wordpress.org/plugins/gt-podcast-bb/"
 else
     echo ""
     echo "⏸️  Tag created locally but not committed to WordPress.org"
     echo "To commit later, run:"
     echo "  cd $SVN_DIR"
-    echo "  svn add --force trunk/* tags/$VERSION/*"
+    echo "  svn add tags/$VERSION"
+    echo "  svn add --force trunk/*"
     echo "  svn commit -m 'Tagging version $VERSION'"
 fi
 
