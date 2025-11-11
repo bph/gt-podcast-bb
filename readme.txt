@@ -35,6 +35,7 @@ episode and podcast data in the block editor. It also includes social icon links
 * Fixed the method to identify the default podcast series
 * added plugin icon
 * removed hard-coded URLs from the social icons in the template 
+* fixed query in the series-taxonomy template to inherit=true
 
 = 0.2.1 =
 * remove gitignore
