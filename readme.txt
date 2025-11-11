@@ -3,8 +3,8 @@ Contributors: bph
 Donate link: https://ko-fi.com/paulchenhaack
 Tags: podcast, block-bindings, block-editor, gutenberg, episode
 Requires at least: 6.8
-Tested up to: 6.8
-Stable tag: 0.3.5
+Tested up to: 6.9
+Stable tag: 0.3.6
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -14,8 +14,8 @@ Adds block bindings for episode and podcast data, social icon links for podcast 
 === Description ===
 ** Still in beta stage, use at your own risk..**
 
-This plugin provides block bindings for the GT Podcast Block Bindings plugin, allowing you to easily access
-episode and podcast data in the block editor. It also includes social icon links for popular podcast directories and a template for a podcast archive page. 
+This plugin provides block bindings for the [Seriously Simple Podcasting](https://wordpress.org/plugins/seriously-simple-podcasting/) plugin, allowing you to easily access
+episode and podcast data in the block editor. It also includes social icon links for popular podcast directories and a template for a podcast series archive page. 
 
 == Frequently Asked Questions == 
 == Upgrade Notice ==
@@ -30,6 +30,9 @@ episode and podcast data in the block editor. It also includes social icon links
 6. Use the template to create an archive page for your podcast using the social icons and the block bindings. 
 
 === Changelog ===
+= 0.3.6 =
+* updated tested up to 6.9 
+
 = 0.3.5 = 
 * Fixed template registration
 * Fixed the method to identify the default podcast series

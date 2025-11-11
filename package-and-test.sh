@@ -10,7 +10,7 @@ echo "📦 Starting package and test process..."
 # Configuration
 PROJECT_DIR="/Users/pauli/gt-podcast-bb"
 SVN_TRUNK="$PROJECT_DIR/svn-local/gt-podcast-bb/trunk"
-WP_STUDIO_SITE="$HOME/WordPress Studio/sites/podcasting site/wp-content/plugins/gt-podcast-bb"
+WP_STUDIO_SITE="$HOME/studio/podcasting/wp-content/plugins/gt-podcast-bb"
 
 # Files and directories to copy
 FILES_TO_COPY=(
