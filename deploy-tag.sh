@@ -23,6 +23,47 @@ SVN_DIR="$PROJECT_DIR/svn-local/gt-podcast-bb"
 SVN_TRUNK="$SVN_DIR/trunk"
 SVN_TAG="$SVN_DIR/tags/$VERSION"
 
+# Extract version from gt-podcast-bb.php
+PLUGIN_VERSION=$(grep -i "^\s*\*\s*Version:" "$PROJECT_DIR/gt-podcast-bb.php" | awk '{print $3}' | tr -d '\r')
+
+# Extract stable tag from readme.txt
+README_VERSION=$(grep -i "^Stable tag:" "$PROJECT_DIR/readme.txt" | awk '{print $3}' | tr -d '\r')
+
+echo ""
+echo "🔍 Version Check:"
+echo "  Deploy version:  $VERSION"
+echo "  Plugin header:   $PLUGIN_VERSION"
+echo "  Readme stable:   $README_VERSION"
+echo ""
+
+# Check if versions match
+VERSIONS_MATCH=true
+if [ "$VERSION" != "$PLUGIN_VERSION" ]; then
+    echo "⚠️  WARNING: Deploy version ($VERSION) does not match plugin header version ($PLUGIN_VERSION)"
+    echo "    File: gt-podcast-bb.php (line ~6)"
+    VERSIONS_MATCH=false
+fi
+
+if [ "$VERSION" != "$README_VERSION" ]; then
+    echo "⚠️  WARNING: Deploy version ($VERSION) does not match readme stable tag ($README_VERSION)"
+    echo "    File: readme.txt (line ~7)"
+    VERSIONS_MATCH=false
+fi
+
+if [ "$VERSIONS_MATCH" = false ]; then
+    echo ""
+    echo "❌ Deployment cancelled - version mismatch must be fixed"
+    echo ""
+    echo "Please update the version numbers to $VERSION in:"
+    echo "  - gt-podcast-bb.php (Version: field, line ~6)"
+    echo "  - readme.txt (Stable tag: field, line ~7)"
+    echo ""
+    exit 1
+fi
+
+echo "✅ All versions match!"
+echo ""
+
 # Verify trunk exists and has files
 if [ ! -d "$SVN_TRUNK" ] || [ -z "$(ls -A "$SVN_TRUNK")" ]; then
     echo "❌ Error: Trunk is empty or doesn't exist"
