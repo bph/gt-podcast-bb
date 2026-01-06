@@ -1,0 +1,52 @@
+# GitHub Pages Configuration for GT Podcast Block Bindings
+
+title: GT Podcast Block Bindings
+description: Make podcast data available in WordPress block themes with block bindings and variations
+baseurl: "/gt-podcast-bb"
+url: "https://bph.github.io"
+
+# Theme
+theme: jekyll-theme-cayman
+# Alternative themes: minima, jekyll-theme-slate, jekyll-theme-architect
+
+# Navigation
+navigation:
+  - title: Home
+    url: /
+  - title: Getting Started
+    url: /getting-started
+  - title: Usage Guide
+    url: /usage
+  - title: API Reference
+    url: /api-reference
+  - title: Development
+    url: /development
+  - title: FAQ
+    url: /faq
+  - title: Changelog
+    url: /changelog
+
+# Plugins
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Exclude from processing
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+
+# GitHub repository
+repository: bph/gt-podcast-bb
+
+# Author
+author:
+  name: Birgit Pauli-Haack
+  url: https://icodeforapurpose.com/about
+
+# Markdown
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge

@@ -14,37 +14,56 @@
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  */
 
-// Prevent direct access
+/**
+ * Security check: Prevent direct access to this file
+ *
+ * Exit if accessed directly without WordPress context.
+ */
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-// Define plugin constants
+/**
+ * Define plugin constants
+ */
+
+/** @var string GT_PODCAST_VERSION Plugin version number */
 if ( ! defined( 'GT_PODCAST_VERSION' ) ) {
     define( 'GT_PODCAST_VERSION', '1.0.0' );
 }
+
+/** @var string GT_PODCAST_PLUGIN_DIR Absolute path to plugin directory with trailing slash */
 if ( ! defined( 'GT_PODCAST_PLUGIN_DIR' ) ) {
     define( 'GT_PODCAST_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 }
+
+/** @var string GT_PODCAST_PLUGIN_URL URL to plugin directory with trailing slash */
 if ( ! defined( 'GT_PODCAST_PLUGIN_URL' ) ) {
     define( 'GT_PODCAST_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 }
 
 /**
  * Initialize the plugin
+ *
+ * Sets up all plugin functionality by registering binding sources,
+ * social link services, enqueueing editor assets, and registering block templates.
+ * Hooked to the 'init' action.
+ *
+ * @since 0.3.6
+ * @return void
  */
 function gt_podcast_init() {
-    
+
     // Register binding sources
     gt_register_binding_sources();
-    
+
     // Register social link services
     add_filter( 'block_core_social_link_get_services', 'gt_register_social_services' );
-    
-    
+
+
     // Enqueue editor assets
     add_action( 'enqueue_block_editor_assets', 'gt_enqueue_editor_assets' );
-    
+
     // Register block templates
     gt_register_block_templates();
 }
@@ -53,6 +72,15 @@ add_action( 'init', 'gt_podcast_init' );
 /**
  * Register block binding sources for podcast data
  *
+ * Registers three binding sources:
+ * - gt-podcast-bb/episode-data: For episode-specific data (date, description, download link)
+ * - gt-podcast-bb/cover-image: For episode cover images
+ * - gt-podcast-bb/podcast-image: For the main podcast logo/image
+ *
+ * Requires WordPress 6.5+ for the register_block_bindings_source() function.
+ * Displays admin notice if WordPress version is insufficient.
+ *
+ * @since 0.3.6
  * @return void
  */
 function gt_register_binding_sources() {
@@ -96,6 +124,10 @@ function gt_register_binding_sources() {
 /**
  * Display admin notice for WordPress version requirement
  *
+ * Shows an error notice in the WordPress admin when the required WordPress
+ * version (6.8+) is not met. Called as an admin_notices action hook.
+ *
+ * @since 0.3.6
  * @return void
  */
 function gt_admin_notice_wp_version() {
@@ -109,10 +141,21 @@ function gt_admin_notice_wp_version() {
 /**
  * Callback function for episode data block bindings
  *
- * @param array $source_args    Arguments passed to the binding source
- * @param WP_Block $block_instance The block instance
- * @param string $attribute_name The attribute name being bound
- * @return string|null The bound value or null if not found
+ * Retrieves episode-specific data based on the binding key provided in source_args.
+ * Supports the following keys:
+ * - recording_date: Formatted episode recording date
+ * - download_link: URL to the episode audio file
+ * - cover_image: URL to the episode cover image
+ * - podcast_description: Main podcast description text
+ * - podcast_image: URL to the main podcast logo/image
+ *
+ * Uses post context to determine which episode to fetch data for.
+ *
+ * @since 0.3.6
+ * @param array    $source_args    Arguments passed to the binding source, must contain 'key'
+ * @param WP_Block $block_instance The block instance with context information
+ * @param string   $attribute_name The attribute name being bound
+ * @return string|null The bound value or null if not found/invalid
  */
 function gt_episode_data_callback( $source_args, $block_instance, $attribute_name ) {
     // Validate source arguments
@@ -159,10 +202,14 @@ function gt_episode_data_callback( $source_args, $block_instance, $attribute_nam
 /**
  * Callback function for cover image block bindings
  *
- * @param array $source_args    Arguments passed to the binding source
- * @param WP_Block $block_instance The block instance
- * @param string $attribute_name The attribute name being bound
- * @return string|null The bound value or null if not found
+ * Retrieves the cover image URL for a specific episode from the cover_image_id post meta.
+ * Uses post context to determine which episode to fetch data for.
+ *
+ * @since 0.3.6
+ * @param array    $source_args    Arguments passed to the binding source (unused)
+ * @param WP_Block $block_instance The block instance with context information
+ * @param string   $attribute_name The attribute name being bound (unused)
+ * @return string|null The cover image URL or null if not found/invalid
  */
 function gt_cover_image_callback( $source_args, $block_instance, $attribute_name ) {
     // Get post ID with fallback
@@ -184,10 +231,14 @@ function gt_cover_image_callback( $source_args, $block_instance, $attribute_name
 /**
  * Callback function for podcast image block bindings
  *
- * @param array $source_args    Arguments passed to the binding source
- * @param WP_Block $block_instance The block instance
- * @param string $attribute_name The attribute name being bound
- * @return string|null The bound value or null if not found
+ * Retrieves the main podcast logo/image URL from plugin options.
+ * This is podcast-level data, not episode-specific.
+ *
+ * @since 0.3.6
+ * @param array    $source_args    Arguments passed to the binding source (unused)
+ * @param WP_Block $block_instance The block instance (unused)
+ * @param string   $attribute_name The attribute name being bound (unused)
+ * @return string|null The podcast image URL or null if not found/invalid
  */
 function gt_podcast_image_callback( $source_args, $block_instance, $attribute_name ) {
     return gt_get_podcast_image_url();
@@ -196,8 +247,12 @@ function gt_podcast_image_callback( $source_args, $block_instance, $attribute_na
 /**
  * Get formatted recording date for a post
  *
- * @param int $post_id Post ID
- * @return string|null Formatted date or null
+ * Retrieves the 'date_recorded' post meta value and formats it according
+ * to the site's date format settings. Validates the date before formatting.
+ *
+ * @since 0.3.6
+ * @param int $post_id Post ID to retrieve the recording date for
+ * @return string|null Formatted date string using site's date format, or null if not found/invalid
  */
 function gt_get_recording_date( $post_id ) {
     $recording_date = get_post_meta( $post_id, 'date_recorded', true );
@@ -222,8 +277,14 @@ function gt_get_recording_date( $post_id ) {
 /**
  * Get download link for a post
  *
- * @param int $post_id Post ID
- * @return string|null Download URL or null
+ * Retrieves the 'audio_file' post meta value containing the URL to the
+ * episode's downloadable audio file. Validates the URL before returning.
+ *
+ * Note: Contains debug code that should be removed in production.
+ *
+ * @since 0.3.6
+ * @param int $post_id Post ID to retrieve the download link for
+ * @return string|null Valid audio file URL or null if not found/invalid
  */
 function gt_get_download_link( $post_id ) {
     $download_link = get_post_meta( $post_id, 'audio_file', true );
@@ -257,8 +318,12 @@ function gt_get_download_link( $post_id ) {
 /**
  * Get cover image URL for a post
  *
- * @param int $post_id Post ID
- * @return string|null Image URL or null
+ * Retrieves the 'cover_image_id' post meta value and converts it to an
+ * attachment URL. Validates that the ID is numeric before processing.
+ *
+ * @since 0.3.6
+ * @param int $post_id Post ID to retrieve the cover image for
+ * @return string|null Cover image URL or null if not found/invalid
  */
 function gt_get_cover_image_url( $post_id ) {
     $cover_image_id = get_post_meta( $post_id, 'cover_image_id', true );
@@ -274,8 +339,17 @@ function gt_get_cover_image_url( $post_id ) {
 /**
  * Get podcast option with series-specific fallback
  *
- * @param string $type Option type (description, image, title, etc.)
- * @return string|null Option value or null
+ * Attempts to retrieve series-specific podcast data first (if a default series
+ * is configured), then falls back to base podcast options. This allows podcasts
+ * with multiple series to have series-specific metadata.
+ *
+ * Option keys are expected to be in Seriously Simple Podcasting format:
+ * - Series-specific: ss_podcasting_data_{type}_{series_id}
+ * - Base: ss_podcasting_data_{type}
+ *
+ * @since 0.3.6
+ * @param string $type Option type (description, image, title, subtitle, etc.)
+ * @return string|null Option value or null if not found
  */
 function gt_get_podcast_option( $type ) {
     // Try to get series-specific data first
@@ -296,7 +370,11 @@ function gt_get_podcast_option( $type ) {
 /**
  * Get podcast description from options
  *
- * @return string|null Description or null
+ * Retrieves the main podcast description text and sanitizes it using wp_kses_post
+ * to allow safe HTML formatting while preventing XSS attacks.
+ *
+ * @since 0.3.6
+ * @return string|null Sanitized podcast description or null if not found
  */
 function gt_get_podcast_description() {
     $description = gt_get_podcast_option( 'description' );
@@ -306,7 +384,11 @@ function gt_get_podcast_description() {
 /**
  * Get podcast image URL from options
  *
- * @return string|null Image URL or null
+ * Retrieves the main podcast logo/image URL from options and validates
+ * that it's a properly formatted URL before returning.
+ *
+ * @since 0.3.6
+ * @return string|null Valid podcast image URL or null if not found/invalid
  */
 function gt_get_podcast_image_url() {
     $image_url = gt_get_podcast_option( 'image' );
@@ -322,6 +404,14 @@ function gt_get_podcast_image_url() {
 /**
  * Enqueue editor assets
  *
+ * Loads JavaScript files for the block editor including:
+ * - Podcast social icon variations
+ * - Block variations for podcast data
+ * - Block binding source definitions
+ *
+ * Only loads in admin/editor context. Hooked to 'enqueue_block_editor_assets'.
+ *
+ * @since 0.3.6
  * @return void
  */
 function gt_enqueue_editor_assets() {
@@ -361,10 +451,15 @@ function gt_enqueue_editor_assets() {
 /**
  * Helper function to enqueue script with asset file
  *
- * @param string $handle Script handle
- * @param string $file_path Relative path to JS file
- * @param string $dir Plugin directory path
- * @param string $url Plugin URL
+ * Enqueues a JavaScript file along with its dependencies from the corresponding
+ * .asset.php file generated by @wordpress/scripts during the build process.
+ * Falls back to empty dependencies if asset file doesn't exist.
+ *
+ * @since 0.3.6
+ * @param string $handle    Unique handle for the script
+ * @param string $file_path Relative path to JS file from plugin root
+ * @param string $dir       Plugin directory absolute path
+ * @param string $url       Plugin URL
  * @return void
  */
 function gt_enqueue_script_with_asset( $handle, $file_path, $dir, $url ) {
@@ -398,8 +493,19 @@ function gt_enqueue_script_with_asset( $handle, $file_path, $dir, $url ) {
 /**
  * Register custom social link services for podcast platforms
  *
- * @param array $services_data Existing services data
- * @return array Modified services data
+ * Adds podcast directory platforms to the WordPress social links block.
+ * Each service includes a name and SVG icon. Registered platforms:
+ * - Apple Podcasts (applepod)
+ * - Pocket Casts (pocketcasts)
+ * - CastBox (castbox)
+ * - Podbean (podbean)
+ * - Podchaser (podchaser)
+ *
+ * Hooked to 'block_core_social_link_get_services' filter.
+ *
+ * @since 0.3.6
+ * @param array $services_data Existing social link services from WordPress core
+ * @return array Merged array of core services plus podcast platforms
  */
 function gt_register_social_services( $services_data ) {
     // Validate input
@@ -436,6 +542,13 @@ function gt_register_social_services( $services_data ) {
 /**
  * Register block templates for podcast functionality
  *
+ * Registers the podcast series archive template (taxonomy-series) from the
+ * templates/template-code.html file. This provides a pre-built template for
+ * displaying podcast episodes with metadata and download links.
+ *
+ * Requires WordPress 6.7+ for the register_block_template() function.
+ *
+ * @since 0.3.6
  * @return void
  */
 function gt_register_block_templates() {
@@ -465,7 +578,11 @@ function gt_register_block_templates() {
 /**
  * Get template content for podcast archive
  *
- * @return string Template content or empty string
+ * Reads the template HTML file from templates/template-code.html and sanitizes
+ * it using wp_kses_post() to ensure safe HTML while preserving block markup.
+ *
+ * @since 0.3.6
+ * @return string Sanitized template content or empty string if file not found
  */
 function gt_get_template_content() {
     $template_file = GT_PODCAST_PLUGIN_DIR . 'templates/template-code.html';
@@ -488,6 +605,13 @@ function gt_get_template_content() {
 /**
  * Plugin activation hook
  *
+ * Checks system requirements and prevents activation if they're not met:
+ * - WordPress 6.8 or higher
+ * - PHP 7.4 or higher
+ *
+ * Displays a user-friendly error message and deactivates the plugin if requirements fail.
+ *
+ * @since 0.3.6
  * @return void
  */
 function gt_podcast_activate() {
@@ -516,6 +640,10 @@ register_activation_hook( __FILE__, 'gt_podcast_activate' );
 /**
  * Unregister block templates
  *
+ * Removes the registered podcast archive template when the plugin is deactivated.
+ * Requires WordPress 6.7+ for the unregister_block_template() function.
+ *
+ * @since 0.3.6
  * @return void
  */
 function gt_unregister_block_templates() {
@@ -531,6 +659,13 @@ function gt_unregister_block_templates() {
 /**
  * Plugin deactivation hook
  *
+ * Performs cleanup tasks when the plugin is deactivated:
+ * - Deletes temporary transients
+ * - Unregisters block templates
+ *
+ * Does not remove user data or settings.
+ *
+ * @since 0.3.6
  * @return void
  */
 function gt_podcast_deactivate() {

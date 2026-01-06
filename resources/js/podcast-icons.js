@@ -1,10 +1,12 @@
 /**
  * Podcast Social Icons
- * 
- * Registers social link variations for podcast platforms
- * 
+ *
+ * Registers social link variations for major podcast directory platforms.
+ * These variations extend the core WordPress social links block with podcast-specific
+ * icons and platform configurations.
+ *
  * @package GT_Podcast_Block_Bindings
- * @since 1.0.0
+ * @since 0.3.6
  */
 
 import { registerBlockVariation } from '@wordpress/blocks';
@@ -12,6 +14,20 @@ import { Path, SVG } from '@wordpress/primitives';
 
 /**
  * Social platform configurations
+ *
+ * @typedef {Object} PlatformConfig
+ * @property {string} name - Human-readable platform name
+ * @property {string} path - SVG path data for the platform icon
+ */
+
+/**
+ * Podcast platform configurations with SVG icons
+ *
+ * Each platform includes:
+ * - name: Display name for the platform
+ * - path: SVG path data for rendering the platform's icon
+ *
+ * @type {Object.<string, PlatformConfig>}
  */
 const PODCAST_PLATFORMS = {
 	applepod: {
@@ -38,9 +54,13 @@ const PODCAST_PLATFORMS = {
 
 /**
  * Creates an SVG icon component for a platform
- * 
- * @param {string} pathData SVG path data
- * @returns {JSX.Element} SVG icon component
+ *
+ * Generates a React/WordPress element containing the platform's icon
+ * using the @wordpress/primitives SVG and Path components with proper
+ * accessibility attributes.
+ *
+ * @param {string} pathData - SVG path data string for the icon
+ * @return {JSX.Element} SVG icon component with 24x24 viewBox
  */
 const createPlatformIcon = ( pathData ) => (
 	<SVG role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -50,9 +70,14 @@ const createPlatformIcon = ( pathData ) => (
 
 /**
  * Registers a social link variation for a podcast platform
- * 
- * @param {string} platformKey Platform identifier
- * @param {Object} platformConfig Platform configuration
+ *
+ * Creates a block variation for the core/social-link block with the platform's
+ * icon and configuration. The variation will appear in the social links inserter
+ * when users add social links to their site.
+ *
+ * @param {string} platformKey - Platform identifier (e.g., 'applepod', 'spotify')
+ * @param {PlatformConfig} platformConfig - Platform configuration with name and path
+ * @return {void}
  */
 const registerPodcastSocialVariation = ( platformKey, platformConfig ) => {
 	registerBlockVariation( 'core/social-link', {
@@ -68,6 +93,11 @@ const registerPodcastSocialVariation = ( platformKey, platformConfig ) => {
 
 /**
  * Initialize all podcast social variations
+ *
+ * Main initialization function that iterates through all configured podcast platforms
+ * and registers a social link variation for each one. Called automatically when script loads.
+ *
+ * @return {void}
  */
 const initializePodcastSocialVariations = () => {
 	Object.entries( PODCAST_PLATFORMS ).forEach( ( [ key, config ] ) => {
