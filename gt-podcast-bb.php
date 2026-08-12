@@ -234,16 +234,51 @@ function gt_episode_data_callback( $source_args, $block_instance, $attribute_nam
             return ! empty( $value ) ? sanitize_text_field( $value ) : null;
 
         case 'subscribe_url':
-            if ( empty( $source_args['service'] ) || ! is_string( $source_args['service'] ) ) {
+            // Resolve the SSP service key. Explicit args.service wins; otherwise
+            // derive from the wp:social-link block's own "service" attribute
+            // (mapped through gt_get_ssp_service_map() to handle slug mismatches
+            // like applepod -> apple_podcasts and feed -> rss).
+            $service = '';
+            if ( ! empty( $source_args['service'] ) && is_string( $source_args['service'] ) ) {
+                $service = sanitize_key( $source_args['service'] );
+            } elseif ( isset( $block_instance->attributes['service'] ) && is_string( $block_instance->attributes['service'] ) ) {
+                $icon    = sanitize_key( $block_instance->attributes['service'] );
+                $map     = gt_get_ssp_service_map();
+                $service = isset( $map[ $icon ] ) ? $map[ $icon ] : $icon;
+            }
+            if ( empty( $service ) ) {
                 return null;
             }
-            $service = sanitize_key( $source_args['service'] );
-            $url     = gt_get_subscribe_url( $service );
+            $url = gt_get_subscribe_url( $service );
             return $url ? esc_url( $url ) : null;
 
         default:
             return null;
     }
+}
+
+/**
+ * Map wp:social-link "service" (icon) slugs to SSP option-key slugs.
+ *
+ * The wp:social-link block uses core icon slugs (applepod, feed, ...)
+ * while SSP stores subscribe URLs under its own keys (apple_podcasts,
+ * rss, ...). Slugs that already match (spotify, pocketcasts, podbean,
+ * podchaser, castbox) don't need an entry.
+ *
+ * Filterable so downstream code can add or override mappings without
+ * editing the plugin.
+ *
+ * @since 0.3.7
+ * @return array<string,string> Icon slug => SSP option-key slug.
+ */
+function gt_get_ssp_service_map() {
+    return apply_filters(
+        'gt_podcast_ssp_service_map',
+        array(
+            'applepod' => 'apple_podcasts',
+            'feed'     => 'rss',
+        )
+    );
 }
 
 /**
