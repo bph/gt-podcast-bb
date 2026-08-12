@@ -1,0 +1,100 @@
+<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+
+<!-- wp:group {"tagName":"main","align":"full","layout":{"type":"constrained"},"hideFromFeed":true} -->
+<main class="wp-block-group alignfull"><!-- wp:query-title {"type":"archive","align":"wide","style":{"typography":{"lineHeight":"1"},"spacing":{"padding":{"top":"var:preset|spacing|50"}}}} /-->
+
+<!-- wp:columns {"verticalAlignment":"center","align":"wide"} -->
+<div class="wp-block-columns alignwide are-vertically-aligned-center"><!-- wp:column {"verticalAlignment":"center"} -->
+<div class="wp-block-column is-vertically-aligned-center"><!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"gt-podcast-bb/episode-data","args":{"key":"podcast_description"}}}}} -->
+<p></p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column -->
+
+<!-- wp:column {"verticalAlignment":"center","width":"150px"} -->
+<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:150px"><!-- wp:image {"width":"150px","metadata":{"bindings":{"url":{"source":"gt-podcast-bb/podcast-image"}}}} -->
+<figure class="wp-block-image is-resized"><img src="#" alt="" style="width:150px"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
+
+<!-- wp:paragraph {"align":"wide","fontSize":"medium"} -->
+<p class="has-medium-font-size alignwide"><strong>Subscribe via your favorite podcast app!</strong></p>
+<!-- /wp:paragraph -->
+
+<!-- wp:social-links {"iconColor":"base","iconColorValue":"#f9f9f9","iconBackgroundColor":"contrast-2","iconBackgroundColorValue":"#636363","openInNewTab":true,"showLabels":true,"size":"has-normal-icon-size","align":"wide"} -->
+<ul class="wp-block-social-links alignwide has-normal-icon-size has-visible-labels has-icon-color has-icon-background-color"><!-- wp:social-link {"url":"#","service":"applepod"} /-->
+
+<!-- wp:social-link {"url":"#","service":"spotify"} /-->
+
+<!-- wp:social-link {"url":"#","service":"pocketcasts"} /-->
+
+<!-- wp:social-link {"url":"#","service":"podbean"} /-->
+
+<!-- wp:social-link {"url":"#","service":"podchaser"} /-->
+
+<!-- wp:social-link {"url":"#","service":"feed"} /-->
+</ul>
+<!-- /wp:social-links -->
+
+<!-- wp:query {"queryId":6,"query":{"perPage":6,"pages":0,"offset":"0","postType":"podcast","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":true,"parents":[],"format":[]},"align":"wide","layout":{"type":"default"}} -->
+<div class="wp-block-query alignwide"><!-- wp:query-no-results -->
+<!-- wp:paragraph -->
+<p>No posts were found.</p>
+<!-- /wp:paragraph -->
+<!-- /wp:query-no-results -->
+
+<!-- wp:post-template {"align":"wide","style":{"spacing":{"blockGap":"var:preset|spacing|30"}},"layout":{"type":"default","columnCount":1}} -->
+<!-- wp:group {"style":{"spacing":{"blockGap":"10px","margin":{"top":"var:preset|spacing|20"},"padding":{"top":"0"}}},"layout":{"type":"constrained"},"hideFromFeed":true} -->
+<div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--20);padding-top:0"><!-- wp:post-title {"isLink":true,"fontSize":"large"} /-->
+
+<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|10"}},"layout":{"type":"flex","flexWrap":"wrap"},"hideFromFeed":true} -->
+<div class="wp-block-group"><!-- wp:paragraph {"fontSize":"small"} -->
+<p class="has-small-font-size">Published on:&nbsp;</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:post-date {"fontSize":"small"} /-->
+
+<!-- wp:paragraph {"fontSize":"small"} -->
+<p class="has-small-font-size">· Recorded on:&nbsp;</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"gt-podcast-bb/episode-data","args":{"key":"recording_date"}}}},"fontSize":"small"} -->
+<p class="has-small-font-size"></p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+
+<!-- wp:columns {"style":{"spacing":{"blockGap":{"left":"var:preset|spacing|20"}}}} -->
+<div class="wp-block-columns"><!-- wp:column {"width":"200px","layout":{"type":"constrained"}} -->
+<div class="wp-block-column" style="flex-basis:200px"><!-- wp:image {"width":"200px","metadata":{"bindings":{"url":{"source":"gt-podcast-bb/cover-image"}}},"align":"left","className":"is-style-default","style":{"color":[]}} -->
+<figure class="wp-block-image alignleft is-resized is-style-default"><img src="#" alt="" style="width:200px"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:post-excerpt {"moreText":"Continue reading →","showMoreOnNewLine":false,"excerptLength":35,"textColor":"contrast-2","fontSize":"medium"} /--></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
+
+<!-- wp:audio {"metadata":{"bindings":{"src":{"source":"gt-podcast-bb/episode-data","args":{"key":"download_link"}}}},"preload":"none"} -->
+<figure class="wp-block-audio"><audio controls preload="none" src="" style="width:100%"></audio></figure>
+<!-- /wp:audio -->
+
+<!-- wp:spacer {"height":"var:preset|spacing|30"} -->
+<div style="height:var(--wp--preset--spacing--30)" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer --></div>
+<!-- /wp:group -->
+<!-- /wp:post-template -->
+
+<!-- wp:spacer {"height":"var:preset|spacing|40"} -->
+<div style="height:var(--wp--preset--spacing--40)" aria-hidden="true" class="wp-block-spacer"></div>
+<!-- /wp:spacer -->
+
+<!-- wp:query-pagination {"paginationArrow":"arrow","align":"wide","layout":{"type":"flex","justifyContent":"space-between"}} -->
+<!-- wp:query-pagination-previous /-->
+
+<!-- wp:query-pagination-next /-->
+<!-- /wp:query-pagination --></div>
+<!-- /wp:query --></main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->

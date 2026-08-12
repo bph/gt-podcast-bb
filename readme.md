@@ -115,6 +115,26 @@ Use block markup in the Code Editor:
 ![Episode download button](assets/Episode-download-button.png)
 *Episode download button variation*
 
+## 🧭 Plugin vs. Theme Responsibilities
+
+When troubleshooting a template that doesn't display podcast data correctly, use this chart to decide whether to fix the plugin or the theme.
+
+| Concern | Owner | Why |
+|---|---|---|
+| Meta-field bindings (`recording_date`, `download_link`, `cover_image`) | **Plugin** | Data logic. Available in any theme via the `gt-podcast-bb/episode-data` and `gt-podcast-bb/cover-image` binding sources. |
+| Feed-detail bindings (`podcast_description`, `podcast_image`, `podcast_title`, `podcast_subtitle`, `podcast_author`, `podcast_owner_name`, `podcast_owner_email`, `podcast_copyright`, `podcast_language`) | **Plugin** | Data logic. Series-aware on `/series/{term}/` archives, falls back to `ss_podcasting_default_series`, then to the base SSP option. |
+| Cover-image fallback to the post's featured image | **Plugin** | Data logic. Keeps the layout intact when an episode has no explicit cover. |
+| Custom social-link services (Apple Podcasts, Pocket Casts, CastBox, Podbean, Podchaser) | **Plugin** | Feature registration via the `block_core_social_link_get_services` filter. |
+| Bundled `taxonomy-series` block template | **Plugin** | Provides a working default via `register_block_template()`. Note: **any theme file with the same slug will override it** — that's WordPress core behavior, not a plugin bug. |
+| Which template renders `/podcast/` and `/series/{term}/`, and its visual layout | **Theme** | Site-specific design. To customize, edit or add `templates/archive-podcast.html` and `templates/taxonomy-series.html` in your theme (or in the Site Editor). |
+| Button styling, spacing, column widths, typography | **Theme** | Presentation belongs in `theme.json` and template markup. The plugin ships unstyled markup so global styles apply. |
+
+### Common gotchas
+
+- **Template edits in the plugin folder don't appear on my site.** Your active theme likely ships its own `templates/taxonomy-series.html` or `templates/archive-podcast.html`. Theme files always beat plugin-registered templates. Fix by editing the theme file (or removing it so the plugin's registered template takes over).
+- **Bindings return nothing on `/podcast/`.** That page is a post-type archive with no queried series. The plugin falls back to the `ss_podcasting_default_series` option — set a default series in SSP's settings if none is configured.
+- **Social icons all say "Share Icon".** The plugin didn't load. On WordPress Studio (or any host with `open_basedir`) this usually means the plugin lives outside the allowed path — copy the plugin into `wp-content/plugins/` instead of symlinking from outside the site tree.
+
 ## 🔧 Development
 
 ### Build from Source

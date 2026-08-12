@@ -60,6 +60,11 @@ function gt_podcast_init() {
     // Register social link services
     add_filter( 'block_core_social_link_get_services', 'gt_register_social_services' );
 
+    // Opt-in additional core blocks for block bindings (WP 6.9+).
+    // This lets the audio block's src attribute pull the episode's audio_file
+    // URL via the gt-podcast-bb/episode-data binding source.
+    add_filter( 'block_bindings_supported_attributes', 'gt_extend_binding_supported_attributes', 10, 2 );
+
 
     // Enqueue editor assets
     add_action( 'enqueue_block_editor_assets', 'gt_enqueue_editor_assets' );
@@ -119,6 +124,29 @@ function gt_register_binding_sources() {
             'uses_context'       => array( 'postId' ),
         )
     );
+}
+
+/**
+ * Extend the list of block attributes that support block bindings.
+ *
+ * WordPress core ships a fixed allow-list per block type. This filter
+ * expands it so that the audio and video blocks' src attribute can be
+ * populated from a binding source (e.g. an episode's audio_file meta).
+ *
+ * @since 0.3.7
+ * @param string[] $attributes  Currently supported attributes for the block.
+ * @param string   $block_type  Block type name (e.g. "core/audio").
+ * @return string[]             Possibly extended attribute list.
+ */
+function gt_extend_binding_supported_attributes( $attributes, $block_type ) {
+    $extra = array(
+        'core/audio' => array( 'src' ),
+        'core/video' => array( 'src', 'poster' ),
+    );
+    if ( isset( $extra[ $block_type ] ) ) {
+        $attributes = array_values( array_unique( array_merge( (array) $attributes, $extra[ $block_type ] ) ) );
+    }
+    return $attributes;
 }
 
 /**
@@ -190,10 +218,20 @@ function gt_episode_data_callback( $source_args, $block_instance, $attribute_nam
             
         case 'podcast_description':
             return gt_get_podcast_description();
-            
+
         case 'podcast_image':
             return gt_get_podcast_image_url();
-            
+
+        case 'podcast_title':
+        case 'podcast_subtitle':
+        case 'podcast_author':
+        case 'podcast_owner_name':
+        case 'podcast_owner_email':
+        case 'podcast_copyright':
+        case 'podcast_language':
+            $value = gt_get_podcast_option( str_replace( 'podcast_', '', $key ) );
+            return ! empty( $value ) ? sanitize_text_field( $value ) : null;
+
         default:
             return null;
     }
@@ -327,13 +365,25 @@ function gt_get_download_link( $post_id ) {
  */
 function gt_get_cover_image_url( $post_id ) {
     $cover_image_id = get_post_meta( $post_id, 'cover_image_id', true );
-    
-    if ( empty( $cover_image_id ) || ! is_numeric( $cover_image_id ) ) {
-        return null;
+
+    if ( ! empty( $cover_image_id ) && is_numeric( $cover_image_id ) ) {
+        $image_url = wp_get_attachment_url( absint( $cover_image_id ) );
+        if ( $image_url ) {
+            return $image_url;
+        }
     }
-    
-    $image_url = wp_get_attachment_url( absint( $cover_image_id ) );
-    return $image_url ? $image_url : null;
+
+    // Fallback to the post's featured image so the template doesn't
+    // render an empty column when episodes have no explicit cover.
+    $thumbnail_id = get_post_thumbnail_id( $post_id );
+    if ( $thumbnail_id ) {
+        $image_url = wp_get_attachment_url( $thumbnail_id );
+        if ( $image_url ) {
+            return $image_url;
+        }
+    }
+
+    return null;
 }
 
 /**
@@ -352,19 +402,29 @@ function gt_get_cover_image_url( $post_id ) {
  * @return string|null Option value or null if not found
  */
 function gt_get_podcast_option( $type ) {
-    // Try to get series-specific data first
-    $series_id = get_option( 'ss_podcasting_default_series' );
-    if ( ! empty( $series_id ) ) {
-        $series_key = "ss_podcasting_data_{$type}_{$series_id}";
-        $series_value = get_option( $series_key );
+    // Prefer the currently queried series (on /series/{term}/ pages),
+    // then the site-wide default series, then the base option.
+    $series_id = 0;
+
+    if ( function_exists( 'is_tax' ) && is_tax( 'series' ) ) {
+        $queried = get_queried_object();
+        if ( $queried && isset( $queried->term_id ) ) {
+            $series_id = (int) $queried->term_id;
+        }
+    }
+
+    if ( ! $series_id ) {
+        $series_id = (int) get_option( 'ss_podcasting_default_series' );
+    }
+
+    if ( $series_id ) {
+        $series_value = get_option( "ss_podcasting_data_{$type}_{$series_id}" );
         if ( ! empty( $series_value ) ) {
             return $series_value;
         }
     }
-    
-    // Fallback to base option
-    $base_key = "ss_podcasting_data_{$type}";
-    return get_option( $base_key );
+
+    return get_option( "ss_podcasting_data_{$type}" );
 }
 
 /**
@@ -557,22 +617,27 @@ function gt_register_block_templates() {
         return;
     }
 
-    // Get template content
-    $template_content = gt_get_template_content();
-    
-    if ( empty( $template_content ) ) {
-        return;
-    }
-
-    // Register podcast archive template
-    $template_args = array(
-        'title'       => __( 'Podcast Series Archive', 'gt-podcast-bb' ),
-        'description' => __( 'Template for displaying podcast episodes with metadata and download links.', 'gt-podcast-bb' ),
-        'content'     => $template_content,
+    $templates = array(
+        'taxonomy-series' => array(
+            'title'       => __( 'Podcast Series Archive', 'gt-podcast-bb' ),
+            'description' => __( 'Template for a single podcast series (series taxonomy archive) with per-series feed details.', 'gt-podcast-bb' ),
+        ),
+        'archive-podcast' => array(
+            'title'       => __( 'Podcast Episodes Archive', 'gt-podcast-bb' ),
+            'description' => __( 'Template for the full podcast episodes archive (post type archive).', 'gt-podcast-bb' ),
+        ),
     );
 
-
-    register_block_template( 'gt-podcast-bb//taxonomy-series', $template_args );
+    foreach ( $templates as $slug => $meta ) {
+        $content = gt_get_template_content( $slug . '.html' );
+        if ( empty( $content ) ) {
+            continue;
+        }
+        register_block_template(
+            'gt-podcast-bb//' . $slug,
+            array_merge( $meta, array( 'content' => $content ) )
+        );
+    }
 }
 
 /**
@@ -584,21 +649,21 @@ function gt_register_block_templates() {
  * @since 0.3.6
  * @return string Sanitized template content or empty string if file not found
  */
-function gt_get_template_content() {
-    $template_file = GT_PODCAST_PLUGIN_DIR . 'templates/template-code.html';
-    
-    
+function gt_get_template_content( $filename = 'taxonomy-series.html' ) {
+    // Prevent path traversal.
+    $filename = basename( $filename );
+    $template_file = GT_PODCAST_PLUGIN_DIR . 'templates/' . $filename;
+
     if ( ! file_exists( $template_file ) ) {
         return '';
     }
-    
+
     $content = file_get_contents( $template_file );
-    
+
     if ( false === $content ) {
         return '';
     }
-    
-    
+
     return wp_kses_post( $content );
 }
 
@@ -652,8 +717,8 @@ function gt_unregister_block_templates() {
         return;
     }
     
-    // Unregister podcast archive template
     unregister_block_template( 'gt-podcast-bb//taxonomy-series' );
+    unregister_block_template( 'gt-podcast-bb//archive-podcast' );
 }
 
 /**
