@@ -140,8 +140,9 @@ function gt_register_binding_sources() {
  */
 function gt_extend_binding_supported_attributes( $attributes, $block_type ) {
     $extra = array(
-        'core/audio' => array( 'src' ),
-        'core/video' => array( 'src', 'poster' ),
+        'core/audio'       => array( 'src' ),
+        'core/video'       => array( 'src', 'poster' ),
+        'core/social-link' => array( 'url' ),
     );
     if ( isset( $extra[ $block_type ] ) ) {
         $attributes = array_values( array_unique( array_merge( (array) $attributes, $extra[ $block_type ] ) ) );
@@ -232,9 +233,53 @@ function gt_episode_data_callback( $source_args, $block_instance, $attribute_nam
             $value = gt_get_podcast_option( str_replace( 'podcast_', '', $key ) );
             return ! empty( $value ) ? sanitize_text_field( $value ) : null;
 
+        case 'subscribe_url':
+            if ( empty( $source_args['service'] ) || ! is_string( $source_args['service'] ) ) {
+                return null;
+            }
+            $service = sanitize_key( $source_args['service'] );
+            $url     = gt_get_subscribe_url( $service );
+            return $url ? esc_url( $url ) : null;
+
         default:
             return null;
     }
+}
+
+/**
+ * Get a podcast-directory subscribe URL from SSP's Feed Details.
+ *
+ * SSP stores each subscribe URL as an option in the form
+ * ss_podcasting_{service}_url (with an optional _{series_id} suffix for
+ * per-series overrides). This helper mirrors gt_get_podcast_option()'s
+ * series-detection logic: current queried series → default series → base.
+ *
+ * @since 0.3.7
+ * @param string $service SSP service key (e.g. "apple_podcasts", "spotify").
+ * @return string|null Subscribe URL or null if not set.
+ */
+function gt_get_subscribe_url( $service ) {
+    $series_id = 0;
+
+    if ( function_exists( 'is_tax' ) && is_tax( 'series' ) ) {
+        $queried = get_queried_object();
+        if ( $queried && isset( $queried->term_id ) ) {
+            $series_id = (int) $queried->term_id;
+        }
+    }
+
+    if ( ! $series_id ) {
+        $series_id = (int) get_option( 'ss_podcasting_default_series' );
+    }
+
+    if ( $series_id ) {
+        $url = get_option( "ss_podcasting_{$service}_url_{$series_id}" );
+        if ( ! empty( $url ) ) {
+            return $url;
+        }
+    }
+
+    return get_option( "ss_podcasting_{$service}_url" );
 }
 
 /**
