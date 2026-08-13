@@ -83,7 +83,8 @@ gt-podcast-bb/
 │       ├── block-variations.js
 │       └── podcast-icons.js
 ├── templates/               # Block templates
-│   └── template-code.html   # Taxonomy-series template
+│   ├── taxonomy-series.html # Series taxonomy archive template
+│   └── archive-podcast.html # Podcast post-type archive template
 ├── vendor/                  # Composer dependencies (gitignored)
 ├── _blueprint/              # WordPress Playground config
 ├── composer.json            # PHP dependencies

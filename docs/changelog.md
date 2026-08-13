@@ -22,6 +22,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.4.0] - 2026-08-13
+
+### Added
+- `subscribe_url` binding on the `episode-data` source — populates each `wp:social-link` from SSP's Feed Details subscribe URLs. Auto-derives the SSP option key from the block's own `service` attribute via a filterable map, so no arg is needed for common services.
+- New feed-detail keys on `episode-data`: `podcast_title`, `podcast_subtitle`, `podcast_author`, `podcast_owner_name`, `podcast_owner_email`, `podcast_copyright`, `podcast_language`.
+- Audio and video block support: extends `block_bindings_supported_attributes` (WP 6.9+) to allow `core/audio.src`, `core/video.src`, `core/video.poster`, and `core/social-link.url`. The audio block can now play an episode's `audio_file` directly.
+- New bundled template `templates/archive-podcast.html` for the `podcast` post-type archive.
+- New filterable helper `gt_get_ssp_service_map()` and filter `gt_podcast_ssp_service_map` for mapping `wp:social-link` icon slugs to SSP option keys.
+
+### Changed
+- Feed-detail bindings are now series-aware. On `/series/{term}/` pages they read the current queried series first, then fall back to the site-wide default series (`ss_podcasting_default_series`), then to the base SSP option.
+- Cover-image binding falls back to the post's featured image when no `cover_image_id` meta is set.
+- Renamed `templates/template-code.html` → `templates/taxonomy-series.html`. Both `taxonomy-series` and `archive-podcast` are registered via `register_block_template()`.
+- `GT_PODCAST_VERSION` constant now tracks the plugin header version.
+
+### Documentation
+- Added a "Plugin vs. Theme Responsibilities" chart and common-gotchas section to `readme.md` and `readme.txt`.
+- Expanded `readme.txt` Description with the full feature set.
+- Updated API reference to cover the new binding keys and filters.
+
+### Compatibility
+- Tested up to WordPress 7.1.
+
+---
+
 ## [0.3.6] - 2024-11-11
 
 ### Added
@@ -170,7 +195,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 | Version | WordPress | PHP | Status |
 |---------|-----------|-----|--------|
-| 0.3.6 | 6.8+ | 7.4+ | Current |
+| 0.4.0 | 6.8+ (6.9+ recommended for audio/video/social-link bindings) | 7.4+ | Current |
+| 0.3.6 | 6.8+ | 7.4+ | Supported |
 | 0.3.5 | 6.8+ | 7.4+ | Supported |
 | 0.3.x | 6.8+ | 7.4+ | Supported |
 | 0.2.x | 6.8+ | 7.4+ | Legacy |

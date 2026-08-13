@@ -3,7 +3,7 @@
  * Plugin Name:       Podcast data for block themes
  * Plugin URI:        https://icodeforapurpose.com/gt-podcast
  * Description:       Using Podcast meta data in Block Bindings and block variations, add custom social icons to Podcast directories and use it all in an archive template of your podcast. 
- * Version:           0.3.6
+ * Version:           0.4.0
  * Requires at least: 6.8
  * Requires PHP:      7.4
  * Author:            Birgit Pauli-Haack 
@@ -29,7 +29,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /** @var string GT_PODCAST_VERSION Plugin version number */
 if ( ! defined( 'GT_PODCAST_VERSION' ) ) {
-    define( 'GT_PODCAST_VERSION', '1.0.0' );
+    define( 'GT_PODCAST_VERSION', '0.4.0' );
 }
 
 /** @var string GT_PODCAST_PLUGIN_DIR Absolute path to plugin directory with trailing slash */

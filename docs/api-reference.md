@@ -25,7 +25,7 @@ Complete technical documentation for developers working with GT Podcast Block Bi
 
 #### GT_PODCAST_VERSION
 ```php
-define( 'GT_PODCAST_VERSION', '0.3.6' );
+define( 'GT_PODCAST_VERSION', '0.4.0' );
 ```
 Plugin version number.
 
@@ -99,11 +99,15 @@ Callback for episode data block bindings.
 **Returns:** `string|null` - Bound value or null
 
 **Supported Keys:**
-- `recording_date` - Formatted recording date
-- `download_link` - Audio file URL
-- `cover_image` - Episode cover image URL
-- `podcast_description` - Podcast description HTML
-- `podcast_image` - Podcast logo URL
+- `recording_date` - Formatted recording date (from `date_recorded` meta).
+- `download_link` - Audio file URL (from `audio_file` meta). Also works on `wp:audio.src`.
+- `cover_image` - Episode cover image URL (falls back to the post's featured image).
+- `podcast_description` - Podcast description HTML.
+- `podcast_image` - Podcast logo URL.
+- `podcast_title`, `podcast_subtitle`, `podcast_author`, `podcast_owner_name`, `podcast_owner_email`, `podcast_copyright`, `podcast_language` - SSP Feed Details fields.
+- `subscribe_url` - Subscribe URL for a podcast directory. Optional `service` arg (SSP option key). If omitted, derived from the `wp:social-link` block's own `service` attribute via `gt_get_ssp_service_map()`.
+
+**Series awareness:** feed-detail keys and `subscribe_url` resolve to the currently queried series on `/series/{term}/` pages, fall back to `ss_podcasting_default_series`, then to the base SSP option.
 
 **Example:**
 ```php
@@ -506,6 +510,21 @@ Editor assets are enqueued on this hook via `gt_enqueue_editor_assets()`.
 apply_filters( 'block_core_social_link_get_services', array $services_data );
 ```
 Add custom podcast platform services via `gt_register_social_services()`.
+
+#### block_bindings_supported_attributes
+```php
+apply_filters( 'block_bindings_supported_attributes', array $attributes, string $block_type );
+```
+Since 0.4.0. The plugin opts these core blocks into the bindings allow-list (WP 6.9+):
+- `core/audio` → `src`
+- `core/video` → `src`, `poster`
+- `core/social-link` → `url`
+
+#### gt_podcast_ssp_service_map
+```php
+apply_filters( 'gt_podcast_ssp_service_map', array $map );
+```
+Since 0.4.0. Map `wp:social-link` icon slugs to SSP option keys, for the `subscribe_url` binding's auto-derive fallback. Default map covers the slug mismatches (`applepod` → `apple_podcasts`, `feed` → `rss`); passthrough for slugs that match SSP exactly.
 
 ---
 

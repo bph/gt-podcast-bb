@@ -2,7 +2,7 @@
 
 **Make podcast data available in WordPress block themes**
 
-[![WordPress Plugin Version](https://img.shields.io/badge/version-0.3.6-blue.svg)](https://github.com/bph/gt-podcast-bb)
+[![WordPress Plugin Version](https://img.shields.io/badge/version-0.4.0-blue.svg)](https://github.com/bph/gt-podcast-bb)
 [![WordPress Version](https://img.shields.io/badge/WordPress-6.8%2B-green.svg)](https://wordpress.org/)
 [![License](https://img.shields.io/badge/license-GPL--2.0%2B-orange.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
 [![Test on WordPress Playground](assets/Test-on-WordPress-Playground.svg)](https://playground.wordpress.net?blueprint-url=https://raw.githubusercontent.com/bph/gt-podcast-bb/refs/heads/main/_blueprint/blueprint.json)
